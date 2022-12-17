@@ -6,7 +6,7 @@ using Zip.Installments.DAL.Interfaces;
 using Zip.Installments.ViewModel.Orders;
 using Zip.InstallmentsService.Services;
 
-namespace Zip.Installments.API.Tests.Services
+namespace Zip.Installments.Service.Tests
 {
     /// <summary>
     ///     The unit test case of serice layer
