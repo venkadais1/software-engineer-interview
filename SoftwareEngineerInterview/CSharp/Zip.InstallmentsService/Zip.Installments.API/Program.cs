@@ -11,13 +11,11 @@ var config = builder.Configuration;
 // Add services to the container.
 
 ////SQL DB
-builder.Services.AddDbContext<OrdersDbContext>(
-    x => x
-    //.UseLazyLoadingProxies()
-          .UseSqlServer(config.GetSection("ConnectionStrings:DbConection").Value));
+//builder.Services.AddDbContext<OrdersDbContext>(
+//    x => x.UseSqlServer(config.GetSection("ConnectionStrings:DbConection").Value));
 
 ////In-Memory-Db
-//builder.Services.AddDbContext<OrdersDbContext>(x => x.UseInMemoryDatabase("testdb"));
+builder.Services.AddDbContext<OrdersDbContext>(x => x.UseInMemoryDatabase("testdb"));
 builder.Services.AddServiceExtensions();
 
 builder.Services.AddControllers();

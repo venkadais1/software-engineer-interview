@@ -1,0 +1,8 @@
+Step1: Replace sql connection string
+Step2: Run the below command in package manager console
+1. Add-Migration Initial
+2. Update-Database
+
+Step3: Add postman Payments.postman_collection.json from postman
+Step4: Run POST method
+Step5: Run GET method
