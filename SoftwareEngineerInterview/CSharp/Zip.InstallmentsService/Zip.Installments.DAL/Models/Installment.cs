@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Zip.Installments.DAL.Models
 {
@@ -10,7 +12,8 @@ namespace Zip.Installments.DAL.Models
         /// <summary>
         /// Gets or sets the unique identifier for each installment.
         /// </summary>
-        public Guid Id { get; set; }
+        [Key]
+        public Guid InstallmentId { get; set; }
 
         /// <summary>
         /// Gets or sets the date that the installment payment is due.

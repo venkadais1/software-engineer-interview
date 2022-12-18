@@ -24,7 +24,7 @@ namespace Zip.Installments.DAL.Migrations
 
             modelBuilder.Entity("Zip.Installments.DAL.Models.Installment", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("InstallmentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -34,20 +34,21 @@ namespace Zip.Installments.DAL.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("PaymentPlanId")
+                    b.Property<Guid?>("PaymentPlanPaymentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("InstallmentId");
 
-                    b.HasIndex("PaymentPlanId");
+                    b.HasIndex("PaymentPlanPaymentId");
 
                     b.ToTable("Installment");
                 });
 
             modelBuilder.Entity("Zip.Installments.DAL.Models.Order", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -84,14 +85,14 @@ namespace Zip.Installments.DAL.Migrations
 
             modelBuilder.Entity("Zip.Installments.DAL.Models.PaymentPlan", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("PaymentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("PurchaseAmount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
+                    b.HasKey("PaymentId");
 
                     b.ToTable("PaymentPlan");
                 });
@@ -100,7 +101,7 @@ namespace Zip.Installments.DAL.Migrations
                 {
                     b.HasOne("Zip.Installments.DAL.Models.PaymentPlan", null)
                         .WithMany("Installments")
-                        .HasForeignKey("PaymentPlanId");
+                        .HasForeignKey("PaymentPlanPaymentId");
                 });
 
             modelBuilder.Entity("Zip.Installments.DAL.Models.Order", b =>

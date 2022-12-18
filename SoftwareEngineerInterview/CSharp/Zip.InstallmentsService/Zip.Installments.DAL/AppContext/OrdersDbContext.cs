@@ -26,6 +26,15 @@ namespace Zip.Installments.DAL.AppContext
             base.OnConfiguring(optionsBuilder);
         }
 
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //  var orders = modelBuilder.Entity<Order>()
+        //       .Property(x => x.Payment)
+        //       .IsRequired();
+
+               
+        //}
+
         /// <summary>
         ///     Db instance of orders
         /// </summary>

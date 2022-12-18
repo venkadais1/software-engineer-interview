@@ -10,15 +10,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7DBA8FED
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zip.Installments.API", "Zip.Installments.API\Zip.Installments.API.csproj", "{703C4132-F10E-4E48-B4E9-36C9404CA231}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zip.Installments.API.Tests", "Zip.Installments.API.Tests\Zip.Installments.API.Tests.csproj", "{F3C2A7A2-0FE1-444C-BB97-CE9E9065B922}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zip.Installments.API.Tests", "Zip.Installments.API.Tests\Zip.Installments.API.Tests.csproj", "{F3C2A7A2-0FE1-444C-BB97-CE9E9065B922}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zip.Installments.DAL", "Zip.Installments.DAL\Zip.Installments.DAL.csproj", "{651DA156-07A4-41E5-B3C7-D7482CF9AB38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zip.Installments.DAL", "Zip.Installments.DAL\Zip.Installments.DAL.csproj", "{651DA156-07A4-41E5-B3C7-D7482CF9AB38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zip.Installments.Validations", "Zip.Installments.Validations\Zip.Installments.Validations.csproj", "{134E9781-0BA4-4D62-AD58-2A63AF951BDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zip.Installments.Validations", "Zip.Installments.Validations\Zip.Installments.Validations.csproj", "{134E9781-0BA4-4D62-AD58-2A63AF951BDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zip.Installments.ViewModel", "Zip.Installments.ViewModel\Zip.Installments.ViewModel.csproj", "{8EEA75F6-9D7A-44A4-B7D9-A7AE4C2893DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zip.Installments.ViewModel", "Zip.Installments.ViewModel\Zip.Installments.ViewModel.csproj", "{8EEA75F6-9D7A-44A4-B7D9-A7AE4C2893DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zip.Installments.Service.Tests", "Zip.Installments.Service.Tests\Zip.Installments.Service.Tests.csproj", "{289E8BD8-C98F-4F94-952C-F250886AC816}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zip.Installments.Service.Tests", "Zip.Installments.Service.Tests\Zip.Installments.Service.Tests.csproj", "{289E8BD8-C98F-4F94-952C-F250886AC816}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Swagger", "Swagger", "{28E1F744-8BF5-498F-91FD-24C69ADF9A98}"
+	ProjectSection(SolutionItems) = preProject
+		..\Documents\Swagger\Payments.postman_collection.json = ..\Documents\Swagger\Payments.postman_collection.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

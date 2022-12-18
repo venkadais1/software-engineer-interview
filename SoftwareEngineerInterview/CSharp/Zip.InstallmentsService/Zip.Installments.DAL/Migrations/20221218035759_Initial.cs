@@ -15,38 +15,38 @@ namespace Zip.Installments.DAL.Migrations
                 name: "PaymentPlan",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PurchaseAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PaymentPlan", x => x.Id);
+                    table.PrimaryKey("PK_PaymentPlan", x => x.PaymentId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Installment",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    InstallmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PaymentPlanId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    PaymentPlanPaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Installment", x => x.Id);
+                    table.PrimaryKey("PK_Installment", x => x.InstallmentId);
                     table.ForeignKey(
-                        name: "FK_Installment_PaymentPlan_PaymentPlanId",
-                        column: x => x.PaymentPlanId,
+                        name: "FK_Installment_PaymentPlan_PaymentPlanPaymentId",
+                        column: x => x.PaymentPlanPaymentId,
                         principalTable: "PaymentPlan",
-                        principalColumn: "Id");
+                        principalColumn: "PaymentId");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProductId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -62,14 +62,14 @@ namespace Zip.Installments.DAL.Migrations
                         name: "FK_Orders_PaymentPlan_PaymentId",
                         column: x => x.PaymentId,
                         principalTable: "PaymentPlan",
-                        principalColumn: "Id",
+                        principalColumn: "PaymentId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Installment_PaymentPlanId",
+                name: "IX_Installment_PaymentPlanPaymentId",
                 table: "Installment",
-                column: "PaymentPlanId");
+                column: "PaymentPlanPaymentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_PaymentId",

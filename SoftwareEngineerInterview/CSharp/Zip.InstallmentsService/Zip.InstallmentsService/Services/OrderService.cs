@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Zip.Installments.DAL.Constants;
@@ -32,7 +33,7 @@ namespace Zip.InstallmentsService.Services
         /// <returns>Returns list of orders</returns>
         public async Task<IList<Order>> GetOrders()
         {
-            var response = await this.repository.OrdersRepository.FindAll();
+            var response = await this.repository.OrdersRepository.FindAll(x => x.Payment, y => y.Payment.Installments);
             return response.OrderByDescending(n => n.FirstName).ToList();
         }
 
@@ -47,6 +48,12 @@ namespace Zip.InstallmentsService.Services
             {
                 throw new ArgumentNullException("Invalid Instalments");
             }
+            var existingOrder = await this.repository.OrdersRepository.FindConditoin(x => x.Id == order.Id);
+            if (existingOrder != null && existingOrder.Any())
+            {
+                throw new InvalidDataException("Invalid Order or order id");
+            }
+            var paymentId = Guid.NewGuid();
             var newOrder = new Order
             {
                 Id = order.Id,
@@ -56,7 +63,8 @@ namespace Zip.InstallmentsService.Services
                 FirstName = order.FirstName,
                 LastName = order.LastName,
                 NumberOfInstallments = order.NumberOfInstallments,
-                Payment = this.CreateInstallments(order)
+                Payment = this.CreateInstallments(order, paymentId),
+                //PaymentId = paymentId
 
             };
             await this.repository.OrdersRepository.Create(newOrder);
@@ -72,7 +80,7 @@ namespace Zip.InstallmentsService.Services
 
         }
 
-        private PaymentPlan CreateInstallments(OrdersViewModel payment)
+        private PaymentPlan CreateInstallments(OrdersViewModel payment, Guid paymentId)
         {
             PaymentPlan paymentPlan = new PaymentPlan();
 
@@ -85,7 +93,7 @@ namespace Zip.InstallmentsService.Services
             {
                 throw new InvalidOperationException("No valid installments found");
             }
-            paymentPlan.Id = Guid.NewGuid();
+            paymentPlan.PaymentId = paymentId;
             paymentPlan.PurchaseAmount = payment.PurchaseAmount;
             paymentPlan.Installments = this.CalculateInstallments(
                 payment.PurchaseAmount,
@@ -106,7 +114,7 @@ namespace Zip.InstallmentsService.Services
             }
             installments.Add(new Installment
             {
-                Id = Guid.NewGuid(),
+                InstallmentId = Guid.NewGuid(),
                 Amount = oneInstallmentAmount,
                 DueDate = firstPaymentDate,
             });
@@ -115,7 +123,7 @@ namespace Zip.InstallmentsService.Services
             {
                 installments.Add(new Installment
                 {
-                    Id = Guid.NewGuid(),
+                    InstallmentId = Guid.NewGuid(),
                     Amount = oneInstallmentAmount,
                     DueDate = firstPaymentDate.AddDays(frequency),
                 });

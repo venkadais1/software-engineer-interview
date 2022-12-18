@@ -7,7 +7,7 @@ namespace Zip.Installments.DAL.Models
     /// </summary>
     public class OrderResponse
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public string Message { get; set; }
     }

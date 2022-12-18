@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Zip.Installments.DAL.Models
 {
@@ -7,14 +8,17 @@ namespace Zip.Installments.DAL.Models
     /// </summary>
     public class Order
     {
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        [Key]
+        public Guid Id { get; set; }
         public string Description { get; set; }
         public string ProductId { get; set; }        
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public int NumberOfInstallments { get; set; }
+        public Guid PaymentId { get; set; }
+
+        [ForeignKey(nameof(PaymentId))]
         public virtual PaymentPlan Payment { get; set; }
     }
 }

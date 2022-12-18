@@ -1,0 +1,70 @@
+{
+	"info": {
+		"_postman_id": "c033f0b1-fcce-480e-9d96-e02f4c18ecaa",
+		"name": "Payments",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://localhost:7083/api/Orders",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 1,\r\n  \"description\": \"Purchase1\",\r\n  \"productId\": \"prod-00-1010-0199\",\r\n  \"firstName\": \"Venkat\",\r\n  \"lastName\": \"D\",\r\n  \"email\": \"venkadais@gmail.co\",\r\n  \"numberOfInstallments\": 4,\r\n  \"frequency\": 4,\r\n  \"purchaseAmount\": 100\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7083/api/Orders",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7083",
+					"path": [
+						"api",
+						"Orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:7083/api/Orders Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n//generate id form https://guidgenerator.com/online-guid-generator.aspx\r\n  \"id\": \"d67826fb-1c6f-4616-a95b-58c833453778\",\r\n  \"description\": \"Purchase1\",\r\n  \"productId\": \"prod-00-1010-0199\",\r\n  \"firstName\": \"Venkat\",\r\n  \"lastName\": \"D\",\r\n  \"email\": \"venkadais@gmail.co\",\r\n  \"numberOfInstallments\": 4,\r\n  \"frequency\": 4,\r\n  \"purchaseAmount\": 100,\r\n  \"firstPaymentDate\": \"2022-12-18T13:26:40.769Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7083/api/Orders",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7083",
+					"path": [
+						"api",
+						"Orders"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

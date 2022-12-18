@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Linq.Expressions;
+using Zip.Installments.DAL.Extensions;
 using Zip.Installments.DAL.Interfaces;
 
 namespace Zip.Installments.DAL.AppContext
@@ -28,10 +29,14 @@ namespace Zip.Installments.DAL.AppContext
            var id = await this.dbContext.Set<T>().AddAsync(entity);
         }
 
-        public async Task<IList<T>> FindAll()
+        public async Task<IList<T>> FindAll(params Expression<Func<T, object>>[] includes)
         {
-            var resp = this.dbContext.Set<T>().AsNoTracking().AsQueryable();
-            return await resp.ToListAsync();
+            var query = this.dbContext.Set<T>()
+                .IncludeMultiple(includes)
+                .AsNoTracking()
+                .AsQueryable();
+            
+            return await query.ToListAsync();
         }
 
         public async Task<int> Delete(T entity)

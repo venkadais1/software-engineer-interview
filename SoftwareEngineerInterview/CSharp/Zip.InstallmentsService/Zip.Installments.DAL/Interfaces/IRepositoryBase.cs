@@ -9,7 +9,7 @@ namespace Zip.Installments.DAL.Interfaces
 {
     public interface IRepositoryBase<T>
     {
-        Task<IList<T>> FindAll();
+        Task<IList<T>> FindAll(params Expression<Func<T, object>>[] includes);
         Task<IList<T>> FindConditoin(Expression<Func<T, bool>> expression);
         Task Create(T entity);
         Task<T> Update(T entity);
