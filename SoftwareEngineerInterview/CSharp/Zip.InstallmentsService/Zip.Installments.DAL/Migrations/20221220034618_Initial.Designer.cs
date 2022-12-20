@@ -12,7 +12,7 @@ using Zip.Installments.DAL.AppContext;
 namespace Zip.Installments.DAL.Migrations
 {
     [DbContext(typeof(OrdersDbContext))]
-    [Migration("20221218035759_Initial")]
+    [Migration("20221220034618_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -75,9 +75,8 @@ namespace Zip.Installments.DAL.Migrations
                     b.Property<Guid>("PaymentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ProductId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 

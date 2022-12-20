@@ -10,7 +10,7 @@ namespace Zip.Installments.ViewModel.Orders
     {
         public Guid Id { get; set; }
         public string Description { get; set; }
-        public string ProductId { get; set; }
+        public Guid ProductId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

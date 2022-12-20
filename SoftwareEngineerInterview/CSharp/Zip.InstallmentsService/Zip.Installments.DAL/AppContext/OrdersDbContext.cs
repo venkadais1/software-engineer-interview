@@ -12,7 +12,7 @@ namespace Zip.Installments.DAL.AppContext
         ///     Initialize an db context instance
         /// </summary>
         /// <param name="options">The db options</param>
-        public OrdersDbContext(DbContextOptions<OrdersDbContext> options) 
+        public OrdersDbContext(DbContextOptions<OrdersDbContext> options)
             : base(options)
         {
         }

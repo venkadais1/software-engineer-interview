@@ -4,7 +4,7 @@ using Moq;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
-using Zip.Installments.API.Controllers;
+using Zip.Installments.API.Controllers.v1;
 using Zip.Installments.ViewModel.Orders;
 using Zip.InstallmentsService.Interface;
 

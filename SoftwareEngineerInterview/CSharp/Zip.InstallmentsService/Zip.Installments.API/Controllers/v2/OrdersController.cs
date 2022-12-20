@@ -6,14 +6,14 @@ using Zip.Installments.ViewModel.Orders;
 using Zip.InstallmentsService.Helpers;
 using Zip.InstallmentsService.Interface;
 
-namespace Zip.Installments.API.Controllers
+namespace Zip.Installments.API.Controllers.v2
 {
     /// <summary>
     ///     The Definition of user orders controller
     /// </summary>
-    [Route("api/[controller]")]
     [ApiController]
-    public class OrdersController : ControllerBase
+    [ApiVersion("2")]
+    public class OrdersController : ApiBaseController
     {
         private readonly IOrderService orderService;
         private readonly ILogger<OrdersController> logger;

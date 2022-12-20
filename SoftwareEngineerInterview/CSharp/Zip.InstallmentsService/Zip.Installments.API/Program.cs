@@ -1,6 +1,8 @@
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Zip.Installments.API.Extensions.Swagger;
 using Zip.Installments.DAL.AppContext;
+using Zip.Installments.DAL.Extensions;
 using Zip.Installments.Validations.Controllers;
 using Zip.InstallmentsService.ServiceExtensions;
 
@@ -10,12 +12,7 @@ var config = builder.Configuration;
 
 // Add services to the container.
 
-////SQL DB
-//builder.Services.AddDbContext<OrdersDbContext>(
-//    x => x.UseSqlServer(config.GetSection("ConnectionStrings:DbConection").Value));
-
-////In-Memory-Db
-builder.Services.AddDbContext<OrdersDbContext>(x => x.UseInMemoryDatabase("testdb"));
+builder.Services.AddInfrastructure(config);
 builder.Services.AddServiceExtensions();
 
 builder.Services.AddControllers();
@@ -23,10 +20,9 @@ builder.Services.AddControllers()
     .AddFluentValidation(x=> x.RegisterValidatorsFromAssemblyContaining<CreateOrdersValidator>());
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer(); 
-builder.Services.AddSwaggerGen();
-
-
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggApiVersioning();
+builder.Services.AddSwagerApiVersionExplorer();
 
 var app = builder.Build();
 
@@ -34,7 +30,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUISetup();
 }
 
 app.UseHttpsRedirection();
