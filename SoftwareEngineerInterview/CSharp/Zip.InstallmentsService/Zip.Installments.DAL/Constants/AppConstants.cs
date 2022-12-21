@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Zip.Installments.DAL.Constants
+﻿namespace Zip.Installments.DAL.Constants
 {
+    /// <summary>
+    ///     Application common constants
+    /// </summary>
     public class AppConstants
     {
+        /// <summary>
+        ///     Payment Success response message
+        /// </summary>
         public const string OrderCreatedSuccess = "Payment Succeed for the order";
     }
 }

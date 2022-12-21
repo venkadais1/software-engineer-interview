@@ -16,7 +16,7 @@ namespace Zip.Installments.API.Controllers.v1
     public class OrdersController : ApiBaseController
     {
         private readonly IOrderService orderService;
-        private readonly ILogger<OrdersController> logger;
+        private readonly INLogger logger;
 
         /// <summary>
         ///     Initialize an instance Orders Controller
@@ -25,7 +25,7 @@ namespace Zip.Installments.API.Controllers.v1
         /// <param name="logger">An instance of Logger</param>
         public OrdersController(
             IOrderService orderService,
-            ILogger<OrdersController> logger)
+            INLogger logger)
         {
             this.orderService = orderService;
             this.logger = logger;
@@ -40,6 +40,7 @@ namespace Zip.Installments.API.Controllers.v1
         [HttpGet("")]
         public async Task<IActionResult> GetOrders()
         {
+            this.logger.LogInfo($"{nameof(OrdersController.GetOrders)} Started");
 
             try
             {
@@ -49,25 +50,34 @@ namespace Zip.Installments.API.Controllers.v1
             }
             catch (UnauthorizedAccessException ex)
             {
+                this.logger.LogError($"Code:{HttpStatusCode.Unauthorized}:{ex}");
                 return ObjectResponse.GetResults(HttpStatusCode.Unauthorized, ex.Message);
             }
             catch (AccessViolationException ex)
             {
+                this.logger.LogError($"Code:{HttpStatusCode.Forbidden}:{ex}");
                 return ObjectResponse.GetResults(HttpStatusCode.Forbidden, ex.Message);
             }
             catch (InvalidOperationException ex)
             {
+                this.logger.LogError($"Code:{HttpStatusCode.BadRequest}:{ex}");
                 return ObjectResponse.GetResults(HttpStatusCode.BadRequest, ex.Message);
             }
             catch (InvalidDataException ex)
             {
+                this.logger.LogError($"Code:{HttpStatusCode.Conflict}:{ex}");
                 return ObjectResponse.GetResults(HttpStatusCode.Conflict, ex.Message);
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex.Message, ex);
-                return ObjectResponse.GetResults(HttpStatusCode.Conflict, ex.Message, true);
+                this.logger.LogError($"Code:{HttpStatusCode.InternalServerError}:{ex}");
+                return ObjectResponse.GetResults(HttpStatusCode.InternalServerError, ex.Message, true);
             }
+            finally
+            {
+                this.logger.LogInfo($"{nameof(OrdersController.GetOrders)} END");
+            }
+
 
         }
 
@@ -103,27 +113,32 @@ namespace Zip.Installments.API.Controllers.v1
             }
             catch (UnauthorizedAccessException ex)
             {
+                this.logger.LogError($"Code:{HttpStatusCode.Unauthorized}:{ex}");
                 return ObjectResponse.GetResults(HttpStatusCode.Unauthorized, ex.Message);
             }
             catch (AccessViolationException ex)
             {
+                this.logger.LogError($"Code:{HttpStatusCode.Forbidden}:{ex}");
                 return ObjectResponse.GetResults(HttpStatusCode.Forbidden, ex.Message);
             }
             catch (ArgumentNullException ex)
             {
+                this.logger.LogError($"Code:{HttpStatusCode.BadRequest}:{ex}");
                 return ObjectResponse.GetResults(HttpStatusCode.BadRequest, ex.Message);
             }
             catch (InvalidOperationException ex)
             {
+                this.logger.LogError($"Code:{HttpStatusCode.BadRequest}:{ex}");
                 return ObjectResponse.GetResults(HttpStatusCode.BadRequest, ex.Message);
             }
             catch (InvalidDataException ex)
             {
+                this.logger.LogError($"Code:{HttpStatusCode.Conflict}:{ex}");
                 return ObjectResponse.GetResults(HttpStatusCode.Conflict, ex.Message);
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex.Message, ex);
+                this.logger.LogError($"Code:{HttpStatusCode.InternalServerError}:{ex}");
                 //return ObjectResponse.GetResults(HttpStatusCode.Conflict, ex.Message, true);
                 return ObjectResponse.GetResults(HttpStatusCode.InternalServerError, ex.ToString());
             }

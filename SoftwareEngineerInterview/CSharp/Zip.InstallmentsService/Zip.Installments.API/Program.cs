@@ -1,5 +1,6 @@
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Zip.Installments.API.Extensions.Logging;
 using Zip.Installments.API.Extensions.Swagger;
 using Zip.Installments.DAL.AppContext;
 using Zip.Installments.DAL.Extensions;
@@ -12,6 +13,7 @@ var config = builder.Configuration;
 
 // Add services to the container.
 
+builder.Services.AddAppLogging(config);
 builder.Services.AddInfrastructure(config);
 builder.Services.AddServiceExtensions();
 

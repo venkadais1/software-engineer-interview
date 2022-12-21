@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq.Expressions;
 using Zip.Installments.DAL.AppContext;
+using Zip.Installments.DAL.Constants;
 
 namespace Zip.Installments.DAL.Extensions
 {
@@ -26,10 +27,10 @@ namespace Zip.Installments.DAL.Extensions
         {
             ////SQL DB
             services.AddDbContext<OrdersDbContext>(
-                x => x.UseSqlServer(config.GetSection("ConnectionStrings:DbConection").Value));
+                x => x.UseSqlServer(config.GetSection(ConfigConstants.DbConnection).Value));
 
             ////In-Memory-Db
-            //services.AddDbContext<OrdersDbContext>(x => x.UseInMemoryDatabase("testdb"));
+            //services.AddDbContext<OrdersDbContext>(x => x.UseInMemoryDatabase(ConfigConstants.InMemoryDbName));
 
             return services;
         }

@@ -17,14 +17,16 @@ namespace Zip.InstallmentsService.Services
     public class OrderService : IOrderService
     {
         private readonly IRepositoryWrapper repository;
+        private readonly INLogger logger;
 
         /// <summary>
         ///     Initialize an instance of <see cref="OrderService"/>
         /// </summary>
         /// <param name="repository"></param>
-        public OrderService(IRepositoryWrapper repository)
+        public OrderService(IRepositoryWrapper repository, INLogger logger)
         {
             this.repository = repository;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -33,8 +35,11 @@ namespace Zip.InstallmentsService.Services
         /// <returns>Returns list of orders</returns>
         public async Task<IList<Order>> GetOrders()
         {
+            this.logger.LogInfo($"{nameof(OrderService.GetOrders)} Fetching");
             var response = await this.repository.OrdersRepository.FindAll(x => x.Payment, y => y.Payment.Installments);
-            return response.OrderByDescending(n => n.FirstName).ToList();
+
+            this.logger.LogInfo($"{nameof(OrderService.GetOrders)} Completed");
+            return response?.OrderByDescending(n => n.FirstName).ToList();
         }
 
         /// <summary>
@@ -44,15 +49,20 @@ namespace Zip.InstallmentsService.Services
         /// <returns>Return created order</returns>
         public async Task<OrderResponse> CreateOrder(OrdersViewModel order)
         {
+            this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Started");
             if (order == null || order.NumberOfInstallments <= 0)
             {
                 throw new ArgumentNullException("Invalid Instalments");
             }
+
+            this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Check if already exists");
             var existingOrder = await this.repository.OrdersRepository.FindConditoin(x => x.Id == order.Id);
             if (existingOrder != null && existingOrder.Any())
             {
                 throw new InvalidDataException("Invalid Order or order id");
             }
+
+            this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Preparing payment order creation");
             var paymentId = Guid.NewGuid();
             var newOrder = new Order
             {
@@ -63,13 +73,13 @@ namespace Zip.InstallmentsService.Services
                 FirstName = order.FirstName,
                 LastName = order.LastName,
                 NumberOfInstallments = order.NumberOfInstallments,
-                Payment = this.CreateInstallments(order, paymentId),
-                //PaymentId = paymentId
-
+                Payment = this.CreateInstallments(order, paymentId)
             };
+
+            this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Creating new order");
             await this.repository.OrdersRepository.Create(newOrder);
             await this.repository.Save();
-
+            this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Order created successfully...");
 
             return new OrderResponse
             {
@@ -77,11 +87,12 @@ namespace Zip.InstallmentsService.Services
                 Message = AppConstants.OrderCreatedSuccess,
                 OrderStatus = OrderStatus.Purchased
             };
-
         }
 
         private PaymentPlan CreateInstallments(OrdersViewModel payment, Guid paymentId)
         {
+            this.logger.LogInfo($"{nameof(OrderService.CreateInstallments)} Creating installments");
+
             PaymentPlan paymentPlan = new PaymentPlan();
 
             if (payment == null)
@@ -101,11 +112,15 @@ namespace Zip.InstallmentsService.Services
                 payment.Frequency,
                 payment.FirstPaymentDate);
 
+            this.logger.LogInfo($"{nameof(OrderService.CreateInstallments)} End");
+
             return paymentPlan;
         }
 
         private Installment[] CalculateInstallments(decimal purchaseAmount, int numberOfInstallments, int frequency, DateTime firstPaymentDate)
         {
+            this.logger.LogInfo($"{nameof(OrderService.CalculateInstallments)} Calculating Installments");
+
             var installments = new List<Installment>();
             var oneInstallmentAmount = purchaseAmount / numberOfInstallments;
             if (firstPaymentDate.Date < DateTime.Now.Date)
@@ -129,6 +144,7 @@ namespace Zip.InstallmentsService.Services
                 });
             }
 
+            this.logger.LogInfo($"{nameof(OrderService.CalculateInstallments)} End");
             return installments.ToArray();
         }
     }

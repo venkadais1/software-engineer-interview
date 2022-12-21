@@ -13,12 +13,12 @@ namespace Zip.Installments.API.Tests.Controllers
     public class OrdersControllerTest
     {
         private readonly Mock<IOrderService> orderService;
-        private readonly Mock<ILogger<OrdersController>> logger;
+        private readonly Mock<INLogger> logger;
         private readonly OrdersController ordersController;
         public OrdersControllerTest()
         {
             this.orderService = new Mock<IOrderService>();
-            this.logger = new Mock<ILogger<OrdersController>>();
+            this.logger = new Mock<INLogger>();
             this.ordersController = new OrdersController(
                 this.orderService.Object,
                 this.logger.Object);
