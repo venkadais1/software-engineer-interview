@@ -1,5 +1,5 @@
 
-using Zip.Installments.DAL.Models;
+using Zip.Installments.Infrastructure.Models;
 
 namespace Zip.InstallmentsService.Factory.Payments
 {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Zip.Installments.DAL.Constants;
+using Zip.Installments.Infrastructure.Constants;
 using Zip.Installments.DAL.Interfaces;
-using Zip.Installments.DAL.Models;
+using Zip.Installments.Infrastructure.Models;
 using Zip.Installments.ViewModel.Orders;
 using Zip.InstallmentsService.Interface;
 

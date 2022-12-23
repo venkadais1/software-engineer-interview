@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Zip.Installments.DAL.Interfaces;
 using Zip.Installments.ViewModel.Orders;
+using Zip.InstallmentsService.Interface;
 using Zip.InstallmentsService.Services;
 
 namespace Zip.Installments.Service.Tests
@@ -15,14 +16,15 @@ namespace Zip.Installments.Service.Tests
     {
         private readonly OrderService orderService;
         private readonly Mock<IRepositoryWrapper> repository;
-        
+        private readonly Mock<INLogger> logger;
         /// <summary>
         ///     Initialize the service unit test
         /// </summary>
         public OrderServiceTest()
         {
             this.repository = new Mock<IRepositoryWrapper>();
-            this.orderService = new OrderService(this.repository.Object);
+            this.logger = new Mock<INLogger>();
+            this.orderService = new OrderService(this.repository.Object, this.logger.Object);
         }
 
         /// <summary>

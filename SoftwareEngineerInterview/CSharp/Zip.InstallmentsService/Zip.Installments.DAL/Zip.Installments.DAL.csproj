@@ -19,4 +19,8 @@
     <PackageReference Include="NLog" Version="5.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Zip.Installments.Infrastructure\Zip.Installments.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

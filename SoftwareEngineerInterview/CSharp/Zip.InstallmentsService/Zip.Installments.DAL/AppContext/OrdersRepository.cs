@@ -1,5 +1,5 @@
 ﻿using Zip.Installments.DAL.Interfaces;
-using Zip.Installments.DAL.Models;
+using Zip.Installments.Infrastructure.Models;
 
 namespace Zip.Installments.DAL.AppContext
 {
