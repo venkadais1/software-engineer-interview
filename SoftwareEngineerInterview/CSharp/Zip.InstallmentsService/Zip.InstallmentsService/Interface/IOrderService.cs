@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Zip.Installments.Infrastructure.Models;
+using Zip.Installments.Core.Models;
 using Zip.Installments.ViewModel.Orders;
 
 namespace Zip.InstallmentsService.Interface

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using Zip.Installments.Infrastructure.Models;
+using Zip.Installments.Core.Models;
 using Zip.Installments.ViewModel.Orders;
 using Zip.InstallmentsService.Helpers;
 using Zip.InstallmentsService.Interface;

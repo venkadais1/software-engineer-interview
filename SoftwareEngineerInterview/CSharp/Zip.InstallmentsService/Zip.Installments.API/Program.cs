@@ -1,6 +1,7 @@
 using Zip.Installments.API.Extensions.Logging;
 using Zip.Installments.API.Extensions.Swagger;
 using Zip.Installments.DAL.Extensions;
+using Zip.Installments.Middleware.Exceptions;
 using Zip.InstallmentsService.ServiceExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,7 +30,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUISetup();
 }
-
+app.UseMiddleware<FluentExceptionMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Zip.Installments.Infrastructure.Models;
+using Zip.Installments.Core.Models;
 using Zip.Installments.Validations.Base;
 
 namespace Zip.Installments.Validations.Services
@@ -8,6 +8,7 @@ namespace Zip.Installments.Validations.Services
     {
         public OrderValidator()
         {
+            RuleLevelCascadeMode = CascadeMode.Stop;
             RuleFor(x => x.NumberOfInstallments)
                 .GreaterThan(1)
                 .WithMessage("Invalid Installments");

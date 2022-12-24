@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 using Zip.Installments.DAL.Interfaces;
-using Zip.Installments.Infrastructure.Models;
+using Zip.Installments.Core.Models;
 using Zip.Installments.ViewModel.Orders;
 using Zip.InstallmentsService.Interface;
 using Zip.InstallmentsService.Services;

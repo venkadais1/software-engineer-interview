@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Zip.Installments.Infrastructure.Constants;
+using Zip.Installments.Core.Constants;
 using Zip.Installments.DAL.Interfaces;
-using Zip.Installments.Infrastructure.Models;
+using Zip.Installments.Core.Models;
 using Zip.Installments.ViewModel.Orders;
 using Zip.InstallmentsService.Interface;
 using FluentValidation;
-using Zip.Installments.Infrastructure.Extensions;
+using Zip.Installments.Core.Extensions;
 using FluentValidation.Results;
 
 namespace Zip.InstallmentsService.Services
@@ -60,58 +60,61 @@ namespace Zip.InstallmentsService.Services
         public async Task<OrderResponse> CreateOrder(OrdersViewModel order)
         {
             this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Started");
-            OrderResponse orderResponse = null;
-            var orderViewModelValidation = await this.VmOrdersValidator.ValidateAsync(order);
+            var orderViewModelValidation = this.VmOrdersValidator.Validate(order);
 
-            if (orderViewModelValidation.IsValid)
+            if (!orderViewModelValidation.IsValid)
             {
-                this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Check if already exists");
-                var existingOrder = await this.repository.OrdersRepository.FindConditoin(x => x.Id == order.Id);
-                if (existingOrder != null && existingOrder.Any())
-                {
-                    throw new InvalidDataException("Invalid Order or order id");
-                }
-
-                this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Preparing payment order creation");
-                var paymentId = Guid.NewGuid();
-                var newOrder = new Order
-                {
-                    Id = order.Id,
-                    ProductId = order.ProductId,
-                    Description = order.Description,
-                    Email = order.Email,
-                    FirstName = order.FirstName,
-                    LastName = order.LastName,
-                    NumberOfInstallments = order.NumberOfInstallments,
-                    Payment = this.CreateInstallments(order, paymentId)
-                };
-
-                var newOrderValidation = await this.ordersValidator.ValidateAsync(newOrder);
-                if (newOrderValidation.IsValid)
-                {
-                    this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Creating new order");
-                    await this.repository.OrdersRepository.Create(newOrder);
-                    await this.repository.Save();
-                    this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Order created successfully...");
-
-                    orderResponse = new OrderResponse
-                    {
-                        Id = order.Id,
-                        Message = AppConstants.OrderCreatedSuccess,
-                        OrderStatus = nameof(OrderStatus.Purchased)
-                    };
-                }
-                else
-                {
-                    orderResponse = CreateOrderResponse(false, order.Id, newOrderValidation);
-                }
+                throw new ValidationException(orderViewModelValidation.Errors);
             }
-            else
+            this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Check if already exists");
+            var existingOrder = await this.repository.OrdersRepository.FindConditoin(x => x.Id == order.Id);
+            if (existingOrder != null && existingOrder.Any())
             {
-                orderResponse = CreateOrderResponse(false, order.Id, orderViewModelValidation);
+                throw new InvalidDataException("Invalid Order or order id");
             }
 
-            return orderResponse;
+            this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Preparing payment order creation");
+            var paymentId = Guid.NewGuid();
+            var newOrder = new Order
+            {
+                Id = order.Id,
+                ProductId = order.ProductId,
+                Description = order.Description,
+                Email = order.Email,
+                FirstName = order.FirstName,
+                LastName = order.LastName,
+                NumberOfInstallments = order.NumberOfInstallments,
+                Payment = this.CreateInstallments(order, paymentId)
+            };
+
+            var neworderValidation = this.ordersValidator.Validate(newOrder);
+            if (!neworderValidation.IsValid)
+            {
+                throw new ValidationException(neworderValidation.Errors);
+            }
+            this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Creating new order");
+            await this.repository.OrdersRepository.Create(newOrder);
+            await this.repository.Save();
+            this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Order created successfully...");
+
+            return new OrderResponse
+            {
+                Id = order.Id,
+                Message = AppConstants.OrderCreatedSuccess,
+                OrderStatus = nameof(OrderStatus.Purchased)
+            };
+            //}
+            //else
+            //{
+            //    orderResponse = CreateOrderResponse(false, order.Id, newOrderValidation);
+            //}
+            //}
+            //else
+            //{
+            //    orderResponse = CreateOrderResponse(false, order.Id, orderViewModelValidation);
+            //}
+
+
         }
 
         private OrderResponse CreateOrderResponse(bool Success, Guid orderId, ValidationResult validationResult)
@@ -127,6 +130,7 @@ namespace Zip.InstallmentsService.Services
             }
             else
             {
+
                 return new OrderResponse
                 {
                     Id = orderId,
@@ -146,7 +150,7 @@ namespace Zip.InstallmentsService.Services
             {
                 throw new InvalidOperationException("Invalid payment plan");
             }
-            
+
             paymentPlan.PaymentId = paymentId;
             paymentPlan.PurchaseAmount = payment.PurchaseAmount;
             paymentPlan.Installments = this.CalculateInstallments(

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Zip.Installments.Infrastructure.Models;
+using Zip.Installments.Core.Models;
 using Zip.Installments.Validations.Base;
 
 namespace Zip.Installments.Validations.Services
@@ -8,6 +8,7 @@ namespace Zip.Installments.Validations.Services
     {
         public PaymentPlanValidator()
         {
+            RuleLevelCascadeMode = CascadeMode.Stop;
             RuleFor(n => n.Installments)
                 .NotNull()
                 .NotEmpty()

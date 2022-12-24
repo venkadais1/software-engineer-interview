@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Zip.Installments.Infrastructure.Models
+namespace Zip.Installments.Core.Models
 {
     /// <summary>
     ///     The POCO definition of orders

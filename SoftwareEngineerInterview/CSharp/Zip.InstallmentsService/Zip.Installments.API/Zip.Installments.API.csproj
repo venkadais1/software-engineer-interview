@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.4.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
@@ -19,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Zip.Installments.Infrastructure\Zip.Installments.Core.csproj" />
+    <ProjectReference Include="..\Zip.Installments.Middleware\Zip.Installments.Middleware.csproj" />
     <ProjectReference Include="..\Zip.Installments.ViewModel\Zip.Installments.ViewModel.csproj" />
     <ProjectReference Include="..\Zip.InstallmentsService\Zip.InstallmentsService.csproj" />
   </ItemGroup>

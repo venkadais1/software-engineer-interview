@@ -1,4 +1,4 @@
-﻿namespace Zip.Installments.Infrastructure.Extensions
+﻿namespace Zip.Installments.Core.Extensions
 {
     public static class CollectionExtensions
     {

@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Zip.Installments.Validations.Base
 {
@@ -6,8 +8,7 @@ namespace Zip.Installments.Validations.Base
     {
         public BaseValidator()
         {
-            RuleLevelCascadeMode = CascadeMode.Stop;
-
+            this.ClassLevelCascadeMode = CascadeMode.Stop;
             RuleFor(model => model)
                 .NotNull();
         }

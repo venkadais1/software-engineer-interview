@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Zip.Installments.DAL.AppContext;
 using Zip.Installments.DAL.Interfaces;
-using Zip.Installments.Infrastructure.Models;
+using Zip.Installments.Core.Models;
 using Zip.Installments.Validations.Controllers;
 using Zip.Installments.Validations.Services;
 using Zip.Installments.ViewModel.Orders;

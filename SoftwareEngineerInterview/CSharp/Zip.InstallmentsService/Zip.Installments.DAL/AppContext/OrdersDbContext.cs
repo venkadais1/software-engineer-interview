@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Zip.Installments.Infrastructure.Models;
+using Zip.Installments.Core.Models;
 
 namespace Zip.Installments.DAL.AppContext
 {

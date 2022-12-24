@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Zip.Installments.Infrastructure.Models
+namespace Zip.Installments.Core.Models
 {
     /// <summary>
     /// Data structure which defines all the properties for a purchase installment plan.

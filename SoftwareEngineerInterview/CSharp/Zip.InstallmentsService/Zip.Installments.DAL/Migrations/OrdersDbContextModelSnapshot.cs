@@ -22,7 +22,7 @@ namespace Zip.Installments.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Zip.Installments.Infrastructure.Models.Installment", b =>
+            modelBuilder.Entity("Zip.Installments.Core.Models.Installment", b =>
                 {
                     b.Property<Guid>("InstallmentId")
                         .ValueGeneratedOnAdd()
@@ -44,7 +44,7 @@ namespace Zip.Installments.DAL.Migrations
                     b.ToTable("Installment");
                 });
 
-            modelBuilder.Entity("Zip.Installments.Infrastructure.Models.Order", b =>
+            modelBuilder.Entity("Zip.Installments.Core.Models.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -82,7 +82,7 @@ namespace Zip.Installments.DAL.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Zip.Installments.Infrastructure.Models.PaymentPlan", b =>
+            modelBuilder.Entity("Zip.Installments.Core.Models.PaymentPlan", b =>
                 {
                     b.Property<Guid>("PaymentId")
                         .ValueGeneratedOnAdd()
@@ -96,16 +96,16 @@ namespace Zip.Installments.DAL.Migrations
                     b.ToTable("PaymentPlan");
                 });
 
-            modelBuilder.Entity("Zip.Installments.Infrastructure.Models.Installment", b =>
+            modelBuilder.Entity("Zip.Installments.Core.Models.Installment", b =>
                 {
-                    b.HasOne("Zip.Installments.Infrastructure.Models.PaymentPlan", null)
+                    b.HasOne("Zip.Installments.Core.Models.PaymentPlan", null)
                         .WithMany("Installments")
                         .HasForeignKey("PaymentPlanPaymentId");
                 });
 
-            modelBuilder.Entity("Zip.Installments.Infrastructure.Models.Order", b =>
+            modelBuilder.Entity("Zip.Installments.Core.Models.Order", b =>
                 {
-                    b.HasOne("Zip.Installments.Infrastructure.Models.PaymentPlan", "Payment")
+                    b.HasOne("Zip.Installments.Core.Models.PaymentPlan", "Payment")
                         .WithMany()
                         .HasForeignKey("PaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -114,7 +114,7 @@ namespace Zip.Installments.DAL.Migrations
                     b.Navigation("Payment");
                 });
 
-            modelBuilder.Entity("Zip.Installments.Infrastructure.Models.PaymentPlan", b =>
+            modelBuilder.Entity("Zip.Installments.Core.Models.PaymentPlan", b =>
                 {
                     b.Navigation("Installments");
                 });

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq.Expressions;
 using Zip.Installments.DAL.AppContext;
-using Zip.Installments.Infrastructure.Constants;
+using Zip.Installments.Core.Constants;
 
 namespace Zip.Installments.DAL.Extensions
 {

@@ -1,4 +1,4 @@
-﻿namespace Zip.Installments.Infrastructure.Constants
+﻿namespace Zip.Installments.Core.Constants
 {
     /// <summary>
     ///     Application common constants

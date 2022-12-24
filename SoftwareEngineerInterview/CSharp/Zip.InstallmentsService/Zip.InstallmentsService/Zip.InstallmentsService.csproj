@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.2.1" />
+    <PackageReference Include="FluentValidation" Version="11.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="NLog" Version="5.1.0" />
@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Zip.Installments.DAL\Zip.Installments.DAL.csproj" />
+    <ProjectReference Include="..\Zip.Installments.Infrastructure\Zip.Installments.Core.csproj" />
     <ProjectReference Include="..\Zip.Installments.Validations\Zip.Installments.Validations.csproj" />
     <ProjectReference Include="..\Zip.Installments.ViewModel\Zip.Installments.ViewModel.csproj" />
   </ItemGroup>

@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using System.Net;
+using Zip.Installments.Core.Constants;
 using Zip.Installments.Validations.Base;
 using Zip.Installments.ViewModel.Orders;
 
@@ -8,18 +10,21 @@ namespace Zip.Installments.Validations.Controllers
     {
         public OrdersViewModelValidator()
         {
+            //this.CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(model => model.Email)
                 .NotNull()
                 .NotEmpty()
                 .EmailAddress()
-                .WithMessage("Invalid Email");
+                .WithErrorCode(HttpStatusCode.BadRequest.ToString())
+                //.WithState(x => new InvalidOperationException(ErrorMessage.InvalidProperty));
+                .WithMessage(ErrorMessage.InvalidProperty);
 
             RuleFor(x => x.FirstName)
                 .NotNull()
                 .NotEmpty()
                 .MinimumLength(1)
                 .MaximumLength(255)
-                .WithMessage("Invalid First Name");
+                .WithMessage(ErrorMessage.InvalidPropertyLength);
 
             RuleFor(x => x.LastName)
                 .NotNull()
@@ -27,19 +32,19 @@ namespace Zip.Installments.Validations.Controllers
                 .MinimumLength(1)
                 .MinimumLength(1)
                 .MaximumLength(255)
-                .WithMessage("Invalid Last Name");
+                .WithMessage(ErrorMessage.InvalidPropertyLength);
 
             RuleFor(x => x.NumberOfInstallments)
                 .GreaterThan(1)
-                .WithMessage("Invalid Installments");
+                .WithMessage(ErrorMessage.InvalidProperty);
 
             RuleFor(x => x.PurchaseAmount)
                 .GreaterThan(1M)
-                .WithMessage("Invalid purchase amount");
+                .WithMessage(ErrorMessage.InvalidProperty);
 
             RuleFor(x => x.FirstPaymentDate)
                 .GreaterThan(DateTime.Now.Date)
-                .WithMessage("Invalid payment date");
+                .WithMessage(ErrorMessage.InvalidProperty);
 
             RuleFor(x => x.Frequency)
                 .GreaterThan(1)

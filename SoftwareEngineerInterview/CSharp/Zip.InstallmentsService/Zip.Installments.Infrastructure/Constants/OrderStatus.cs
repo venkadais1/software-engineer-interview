@@ -1,5 +1,5 @@
 ﻿
-namespace Zip.Installments.Infrastructure.Constants
+namespace Zip.Installments.Core.Constants
 {
     /// <summary>
     ///     The current order status

@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Zip.Installments.Infrastructure\Zip.Installments.Infrastructure.csproj" />
+    <ProjectReference Include="..\Zip.Installments.Infrastructure\Zip.Installments.Core.csproj" />
     <ProjectReference Include="..\Zip.Installments.ViewModel\Zip.Installments.ViewModel.csproj" />
   </ItemGroup>
 
