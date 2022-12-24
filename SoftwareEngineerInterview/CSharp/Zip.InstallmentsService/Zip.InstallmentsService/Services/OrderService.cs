@@ -8,6 +8,9 @@ using Zip.Installments.DAL.Interfaces;
 using Zip.Installments.Infrastructure.Models;
 using Zip.Installments.ViewModel.Orders;
 using Zip.InstallmentsService.Interface;
+using FluentValidation;
+using Zip.Installments.Infrastructure.Extensions;
+using FluentValidation.Results;
 
 namespace Zip.InstallmentsService.Services
 {
@@ -16,17 +19,24 @@ namespace Zip.InstallmentsService.Services
     /// </summary>
     public class OrderService : IOrderService
     {
-        private readonly IRepositoryWrapper repository;
         private readonly INLogger logger;
+        private readonly IRepositoryWrapper repository;
+        private readonly IValidator<OrdersViewModel> VmOrdersValidator;
+        private readonly IValidator<Order> ordersValidator;
 
         /// <summary>
         ///     Initialize an instance of <see cref="OrderService"/>
         /// </summary>
         /// <param name="repository"></param>
-        public OrderService(IRepositoryWrapper repository, INLogger logger)
+        public OrderService(INLogger logger,
+            IRepositoryWrapper repository,
+            IValidator<OrdersViewModel> VmOrdersValidator,
+            IValidator<Order> ordersValidator)
         {
             this.repository = repository;
             this.logger = logger;
+            this.VmOrdersValidator = VmOrdersValidator;
+            this.ordersValidator = ordersValidator;
         }
 
         /// <summary>
@@ -50,43 +60,80 @@ namespace Zip.InstallmentsService.Services
         public async Task<OrderResponse> CreateOrder(OrdersViewModel order)
         {
             this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Started");
-            if (order == null || order.NumberOfInstallments <= 0)
+            OrderResponse orderResponse = null;
+            var orderViewModelValidation = await this.VmOrdersValidator.ValidateAsync(order);
+
+            if (orderViewModelValidation.IsValid)
             {
-                throw new ArgumentNullException("Invalid Instalments");
+                this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Check if already exists");
+                var existingOrder = await this.repository.OrdersRepository.FindConditoin(x => x.Id == order.Id);
+                if (existingOrder != null && existingOrder.Any())
+                {
+                    throw new InvalidDataException("Invalid Order or order id");
+                }
+
+                this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Preparing payment order creation");
+                var paymentId = Guid.NewGuid();
+                var newOrder = new Order
+                {
+                    Id = order.Id,
+                    ProductId = order.ProductId,
+                    Description = order.Description,
+                    Email = order.Email,
+                    FirstName = order.FirstName,
+                    LastName = order.LastName,
+                    NumberOfInstallments = order.NumberOfInstallments,
+                    Payment = this.CreateInstallments(order, paymentId)
+                };
+
+                var newOrderValidation = await this.ordersValidator.ValidateAsync(newOrder);
+                if (newOrderValidation.IsValid)
+                {
+                    this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Creating new order");
+                    await this.repository.OrdersRepository.Create(newOrder);
+                    await this.repository.Save();
+                    this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Order created successfully...");
+
+                    orderResponse = new OrderResponse
+                    {
+                        Id = order.Id,
+                        Message = AppConstants.OrderCreatedSuccess,
+                        OrderStatus = OrderStatus.Purchased
+                    };
+                }
+                else
+                {
+                    orderResponse = CreateOrderResponse(false, order.Id, newOrderValidation);
+                }
+            }
+            else
+            {
+                orderResponse = CreateOrderResponse(false, order.Id, orderViewModelValidation);
             }
 
-            this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Check if already exists");
-            var existingOrder = await this.repository.OrdersRepository.FindConditoin(x => x.Id == order.Id);
-            if (existingOrder != null && existingOrder.Any())
+            return orderResponse;
+        }
+
+        private OrderResponse CreateOrderResponse(bool Success, Guid orderId, ValidationResult validationResult)
+        {
+            if (Success)
             {
-                throw new InvalidDataException("Invalid Order or order id");
+                return new OrderResponse
+                {
+                    Id = orderId,
+                    Message = AppConstants.OrderCreatedSuccess,
+                    OrderStatus = OrderStatus.Purchased
+                };
             }
-
-            this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Preparing payment order creation");
-            var paymentId = Guid.NewGuid();
-            var newOrder = new Order
+            else
             {
-                Id = order.Id,
-                ProductId = order.ProductId,
-                Description = order.Description,
-                Email = order.Email,
-                FirstName = order.FirstName,
-                LastName = order.LastName,
-                NumberOfInstallments = order.NumberOfInstallments,
-                Payment = this.CreateInstallments(order, paymentId)
-            };
-
-            this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Creating new order");
-            await this.repository.OrdersRepository.Create(newOrder);
-            await this.repository.Save();
-            this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Order created successfully...");
-
-            return new OrderResponse
-            {
-                Id = order.Id,
-                Message = AppConstants.OrderCreatedSuccess,
-                OrderStatus = OrderStatus.Purchased
-            };
+                return new OrderResponse
+                {
+                    Id = orderId,
+                    Message = validationResult.Errors.Select(x => x.ErrorMessage).EnumToString(),
+                    OrderStatus = OrderStatus.CreationFailed
+                };
+            }
         }
 
         private PaymentPlan CreateInstallments(OrdersViewModel payment, Guid paymentId)
@@ -99,11 +146,7 @@ namespace Zip.InstallmentsService.Services
             {
                 throw new InvalidOperationException("Invalid payment plan");
             }
-
-            if (payment.NumberOfInstallments == 0)
-            {
-                throw new InvalidOperationException("No valid installments found");
-            }
+            
             paymentPlan.PaymentId = paymentId;
             paymentPlan.PurchaseAmount = payment.PurchaseAmount;
             paymentPlan.Installments = this.CalculateInstallments(

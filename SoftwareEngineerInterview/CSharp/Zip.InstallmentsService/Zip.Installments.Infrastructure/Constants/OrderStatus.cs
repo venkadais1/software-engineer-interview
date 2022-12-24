@@ -11,6 +11,7 @@ namespace Zip.Installments.Infrastructure.Constants
         Dispatch,
         Shipped,
         Delivered,
-        Finished
+        Finished,
+        CreationFailed
     }
 }

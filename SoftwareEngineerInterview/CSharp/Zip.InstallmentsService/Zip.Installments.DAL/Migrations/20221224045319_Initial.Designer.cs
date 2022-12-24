@@ -12,7 +12,7 @@ using Zip.Installments.DAL.AppContext;
 namespace Zip.Installments.DAL.Migrations
 {
     [DbContext(typeof(OrdersDbContext))]
-    [Migration("20221220034618_Initial")]
+    [Migration("20221224045319_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace Zip.Installments.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Zip.Installments.DAL.Models.Installment", b =>
+            modelBuilder.Entity("Zip.Installments.Infrastructure.Models.Installment", b =>
                 {
                     b.Property<Guid>("InstallmentId")
                         .ValueGeneratedOnAdd()
@@ -47,7 +47,7 @@ namespace Zip.Installments.DAL.Migrations
                     b.ToTable("Installment");
                 });
 
-            modelBuilder.Entity("Zip.Installments.DAL.Models.Order", b =>
+            modelBuilder.Entity("Zip.Installments.Infrastructure.Models.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -85,7 +85,7 @@ namespace Zip.Installments.DAL.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Zip.Installments.DAL.Models.PaymentPlan", b =>
+            modelBuilder.Entity("Zip.Installments.Infrastructure.Models.PaymentPlan", b =>
                 {
                     b.Property<Guid>("PaymentId")
                         .ValueGeneratedOnAdd()
@@ -99,16 +99,16 @@ namespace Zip.Installments.DAL.Migrations
                     b.ToTable("PaymentPlan");
                 });
 
-            modelBuilder.Entity("Zip.Installments.DAL.Models.Installment", b =>
+            modelBuilder.Entity("Zip.Installments.Infrastructure.Models.Installment", b =>
                 {
-                    b.HasOne("Zip.Installments.DAL.Models.PaymentPlan", null)
+                    b.HasOne("Zip.Installments.Infrastructure.Models.PaymentPlan", null)
                         .WithMany("Installments")
                         .HasForeignKey("PaymentPlanPaymentId");
                 });
 
-            modelBuilder.Entity("Zip.Installments.DAL.Models.Order", b =>
+            modelBuilder.Entity("Zip.Installments.Infrastructure.Models.Order", b =>
                 {
-                    b.HasOne("Zip.Installments.DAL.Models.PaymentPlan", "Payment")
+                    b.HasOne("Zip.Installments.Infrastructure.Models.PaymentPlan", "Payment")
                         .WithMany()
                         .HasForeignKey("PaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -117,7 +117,7 @@ namespace Zip.Installments.DAL.Migrations
                     b.Navigation("Payment");
                 });
 
-            modelBuilder.Entity("Zip.Installments.DAL.Models.PaymentPlan", b =>
+            modelBuilder.Entity("Zip.Installments.Infrastructure.Models.PaymentPlan", b =>
                 {
                     b.Navigation("Installments");
                 });

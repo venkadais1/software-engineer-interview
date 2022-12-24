@@ -1,35 +1,41 @@
 ﻿using FluentValidation;
+using Zip.Installments.Validations.Base;
 using Zip.Installments.ViewModel.Orders;
 
 namespace Zip.Installments.Validations.Controllers
 {
-    public class CreateOrdersValidator : AbstractValidator<OrdersViewModel>
+    public class OrdersViewModelValidator : BaseValidator<OrdersViewModel>
     {
-        public CreateOrdersValidator()
+        public OrdersViewModelValidator()
         {
-            RuleLevelCascadeMode = CascadeMode.Stop;
             RuleFor(model => model.Email)
                 .NotNull()
                 .NotEmpty()
-                .EmailAddress();
+                .EmailAddress()
+                .WithMessage("Invalid Email");
 
             RuleFor(x => x.FirstName)
                 .NotNull()
                 .NotEmpty()
-                .MinimumLength(1);
+                .MinimumLength(1)
+                .MaximumLength(255)
+                .WithMessage("Invalid First Name");
 
             RuleFor(x => x.LastName)
                 .NotNull()
                 .NotEmpty()
-                .MinimumLength(1);
+                .MinimumLength(1)
+                .MinimumLength(1)
+                .MaximumLength(255)
+                .WithMessage("Invalid Last Name");
 
             RuleFor(x => x.NumberOfInstallments)
                 .GreaterThan(1)
-                .WithMessage("Should be more than one");
+                .WithMessage("Invalid Installments");
 
             RuleFor(x => x.PurchaseAmount)
-                .GreaterThan(1)
-                .WithMessage("Invalid amount");
+                .GreaterThan(1M)
+                .WithMessage("Invalid purchase amount");
 
             RuleFor(x => x.FirstPaymentDate)
                 .GreaterThan(DateTime.Now.Date)

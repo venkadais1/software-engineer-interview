@@ -1,8 +1,10 @@
-﻿using Moq;
+﻿using FluentValidation;
+using Moq;
 using System;
 using System.Threading.Tasks;
 using Xunit;
 using Zip.Installments.DAL.Interfaces;
+using Zip.Installments.Infrastructure.Models;
 using Zip.Installments.ViewModel.Orders;
 using Zip.InstallmentsService.Interface;
 using Zip.InstallmentsService.Services;
@@ -17,6 +19,8 @@ namespace Zip.Installments.Service.Tests
         private readonly OrderService orderService;
         private readonly Mock<IRepositoryWrapper> repository;
         private readonly Mock<INLogger> logger;
+        private readonly Mock<IValidator<OrdersViewModel>> VmOrdersValidator;
+        private readonly Mock<IValidator<Order>> ordersValidator;
         /// <summary>
         ///     Initialize the service unit test
         /// </summary>
@@ -24,7 +28,13 @@ namespace Zip.Installments.Service.Tests
         {
             this.repository = new Mock<IRepositoryWrapper>();
             this.logger = new Mock<INLogger>();
-            this.orderService = new OrderService(this.repository.Object, this.logger.Object);
+            this.VmOrdersValidator = new Mock<IValidator<OrdersViewModel>>();
+            this.ordersValidator = new Mock<IValidator<Order>>();
+            this.orderService = new OrderService(
+                this.logger.Object,
+                this.repository.Object,
+                this.VmOrdersValidator.Object,
+                this.ordersValidator.Object);
         }
 
         /// <summary>

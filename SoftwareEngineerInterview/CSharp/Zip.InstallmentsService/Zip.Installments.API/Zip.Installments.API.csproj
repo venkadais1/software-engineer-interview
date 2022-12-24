@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Zip.Installments.Validations\Zip.Installments.Validations.csproj" />
     <ProjectReference Include="..\Zip.Installments.ViewModel\Zip.Installments.ViewModel.csproj" />
     <ProjectReference Include="..\Zip.InstallmentsService\Zip.InstallmentsService.csproj" />
   </ItemGroup>
