@@ -20,8 +20,6 @@ namespace Zip.InstallmentsService.ServiceExtensions
             service.AddScoped<IOrdersRepository, OrdersRepository>();
             service.AddTransient<IValidator<OrdersViewModel>, OrdersViewModelValidator>();
             service.AddTransient<IValidator<Order>, OrderValidator>();
-            //        service.AddControllers()
-            //.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<OrdersViewModelValidator>());
 
             return service;
         }

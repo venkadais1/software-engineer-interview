@@ -8,7 +8,7 @@ namespace Zip.Installments.Infrastructure.Models
     public class OrderResponse
     {
         public Guid Id { get; set; }
-        public OrderStatus OrderStatus { get; set; }
+        public string OrderStatus { get; set; }
         public string Message { get; set; }
     }
 }

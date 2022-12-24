@@ -98,7 +98,7 @@ namespace Zip.InstallmentsService.Services
                     {
                         Id = order.Id,
                         Message = AppConstants.OrderCreatedSuccess,
-                        OrderStatus = OrderStatus.Purchased
+                        OrderStatus = nameof(OrderStatus.Purchased)
                     };
                 }
                 else
@@ -122,7 +122,7 @@ namespace Zip.InstallmentsService.Services
                 {
                     Id = orderId,
                     Message = AppConstants.OrderCreatedSuccess,
-                    OrderStatus = OrderStatus.Purchased
+                    OrderStatus = nameof(OrderStatus.Purchased)
                 };
             }
             else
@@ -131,7 +131,7 @@ namespace Zip.InstallmentsService.Services
                 {
                     Id = orderId,
                     Message = validationResult.Errors.Select(x => x.ErrorMessage).EnumToString(),
-                    OrderStatus = OrderStatus.CreationFailed
+                    OrderStatus = nameof(OrderStatus.CreationFailed)
                 };
             }
         }
