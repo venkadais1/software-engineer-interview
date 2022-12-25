@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 using Zip.Installments.Core.Models;
 using Zip.Installments.ViewModel.Orders;
-using Zip.InstallmentsService.Helpers;
 using Zip.InstallmentsService.Interface;
 
 namespace Zip.Installments.API.Controllers.v2
@@ -12,14 +12,20 @@ namespace Zip.Installments.API.Controllers.v2
     /// </summary>
     [ApiController]
     [ApiVersion("2")]
+    [ExcludeFromCodeCoverage]
     public class OrdersController : ApiBaseController
     {
         private readonly IOrderService orderService;
-        private readonly ILogger<OrdersController> logger;
+        private readonly INLogger logger;
 
+        /// <summary>
+        ///     Initialize an instance Orders Controller
+        /// </summary>
+        /// <param name="orderService">An instance of Order Service</param>
+        /// <param name="logger">An instance of Logger</param>
         public OrdersController(
             IOrderService orderService,
-            ILogger<OrdersController> logger)
+            INLogger logger)
         {
             this.orderService = orderService;
             this.logger = logger;
@@ -31,38 +37,38 @@ namespace Zip.Installments.API.Controllers.v2
         /// </summary>
         /// <param name="order">An instance of <see cref="Order"/></param>
         /// <returns>Returns an instance of <see cref="OrderResponse"/></returns>
-        [HttpGet("")]
+        [HttpGet("all")]
         public async Task<IActionResult> GetOrders()
         {
 
-            try
-            {
-                var response = await this.orderService.GetOrders();
-                return response == null ? this.NotFound() :
-                    Ok(response);
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return ObjectResponse.GetResults(HttpStatusCode.Unauthorized, ex.Message);
-            }
-            catch (AccessViolationException ex)
-            {
-                return ObjectResponse.GetResults(HttpStatusCode.Forbidden, ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return ObjectResponse.GetResults(HttpStatusCode.BadRequest, ex.Message);
-            }
-            catch (InvalidDataException ex)
-            {
-                return ObjectResponse.GetResults(HttpStatusCode.Conflict, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex.Message, ex);
-                return ObjectResponse.GetResults(HttpStatusCode.Conflict, ex.Message, true);
-            }
+            this.logger.LogInfo($"{nameof(OrdersController.GetOrders)} Started");
 
+            var response = await this.orderService.GetOrders();
+
+            this.logger.LogInfo($"{nameof(OrdersController.GetOrders)} END");
+            return response == null ? this.NotFound() :
+                Ok(response);
+        }
+
+        /// <summary>
+        ///     GET: To get the list of user orders 
+        /// </summary>
+        /// <param name="order">An instance of order</param>
+        /// <returns>Returns an instance of order response</returns>
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetOrderByOrderByFilter([FromQuery]
+            [Optional]string OrderId,
+            [Optional] string Email,
+            [Optional] string FirstName,
+            [Optional] string LastName,
+            [Optional] string OrderTitle)
+        {
+            this.logger.LogInfo($"{nameof(OrdersController.GetOrderByOrderByFilter)} Started");
+            var response = await this.orderService.GetOrderByFilter(OrderId, Email, FirstName, LastName, OrderTitle);
+
+            this.logger.LogInfo($"{nameof(OrdersController.GetOrderByOrderByFilter)} END");
+            return response == null ? this.NotFound() :
+                Ok(response);
         }
 
         /// <summary>
@@ -74,40 +80,13 @@ namespace Zip.Installments.API.Controllers.v2
         public async Task<IActionResult> CreateOrders(
             [FromBody] OrdersViewModel order)
         {
+            this.logger.LogInfo($"{nameof(OrdersController.GetOrders)} Started");
 
-            try
-            {
-                var response = await this.orderService.CreateOrder(order);
-                return response == null ? this.NotFound() :
-                    Ok(response);
+            var response = await this.orderService.CreateOrder(order);
 
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return ObjectResponse.GetResults(HttpStatusCode.Unauthorized, ex.Message);
-            }
-            catch (AccessViolationException ex)
-            {
-                return ObjectResponse.GetResults(HttpStatusCode.Forbidden, ex.Message);
-            }
-            catch (ArgumentNullException ex)
-            {
-                return ObjectResponse.GetResults(HttpStatusCode.BadRequest, ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return ObjectResponse.GetResults(HttpStatusCode.BadRequest, ex.Message);
-            }
-            catch (InvalidDataException ex)
-            {
-                return ObjectResponse.GetResults(HttpStatusCode.Conflict, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex.Message, ex);
-                //return ObjectResponse.GetResults(HttpStatusCode.Conflict, ex.Message, true);
-                return ObjectResponse.GetResults(HttpStatusCode.InternalServerError, ex.ToString());
-            }
+            this.logger.LogInfo($"{nameof(OrdersController.GetOrders)} END");
+            return response == null ? this.NotFound() :
+                Ok(response);
 
         }
     }

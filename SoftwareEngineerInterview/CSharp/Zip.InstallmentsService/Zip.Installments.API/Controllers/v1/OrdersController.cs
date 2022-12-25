@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
 using Zip.Installments.Core.Models;
 using Zip.Installments.ViewModel.Orders;
 using Zip.InstallmentsService.Interface;
@@ -12,6 +11,7 @@ namespace Zip.Installments.API.Controllers.v1
     ///     The Definition of user orders controller
     /// </summary>
     [ApiVersion("1")]
+    [ExcludeFromCodeCoverage]
     public class OrdersController : ApiBaseController
     {
         private readonly IOrderService orderService;
