@@ -1,4 +1,3 @@
-using System.Net.Mime;
 using Zip.Installments.API.Extensions.Logging;
 using Zip.Installments.API.Extensions.Swagger;
 using Zip.Installments.DAL.Extensions;
@@ -21,7 +20,6 @@ builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
     options.SuppressModelStateInvalidFilter = true;
 });
 
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggApiVersioning();
@@ -36,9 +34,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUISetup();
 }
 app.UseMiddleware<FluentExceptionMiddleware>();
-app.UseHttpsRedirection();
-
-//app.UseAuthorization();
+app.UseHttpsRedirection(); 
 
 app.MapControllers();
 

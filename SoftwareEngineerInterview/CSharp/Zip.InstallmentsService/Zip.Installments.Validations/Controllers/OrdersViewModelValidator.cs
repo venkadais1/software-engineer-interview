@@ -5,8 +5,14 @@ using Zip.Installments.ViewModel.Orders;
 
 namespace Zip.Installments.Validations.Controllers
 {
+    /// <summary>
+    ///     To set fluent validation for order view model
+    /// </summary>
     public class OrdersViewModelValidator : BaseValidator<OrdersViewModel>, IValidator<OrdersViewModel>
     {
+        /// <summary>
+        ///     Set fluent validation rules for order view model
+        /// </summary>
         public OrdersViewModelValidator()
         {
             RuleFor(model => model.Email)
@@ -45,8 +51,6 @@ namespace Zip.Installments.Validations.Controllers
             RuleFor(x => x.Frequency)
                 .GreaterThan(1)
                 .WithMessage("Payment frequency should more than one day");
-
-
         }
     }
 }

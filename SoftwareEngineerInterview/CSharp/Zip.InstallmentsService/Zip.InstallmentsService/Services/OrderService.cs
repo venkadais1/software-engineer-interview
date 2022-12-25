@@ -1,20 +1,13 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
-using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Zip.Installments.Core.Constants;
-using Zip.Installments.Core.Extensions;
 using Zip.Installments.Core.Models;
-using Zip.Installments.DAL.Extensions;
 using Zip.Installments.DAL.Interfaces;
-using Zip.Installments.Validations.Controllers;
-using Zip.Installments.Validations.Services;
 using Zip.Installments.ViewModel.Orders;
 using Zip.InstallmentsService.Interface;
 
@@ -85,7 +78,7 @@ namespace Zip.InstallmentsService.Services
         }
 
         /// <summary>
-        ///     Create the order of payment with instalments
+        ///     Create the order of payment with installments
         /// </summary>
         /// <param name="order">An view model of order</param>
         /// <returns>Return created order</returns>
@@ -93,7 +86,7 @@ namespace Zip.InstallmentsService.Services
         {
             this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Started");
             var orderViewModelValidation = this.VmOrdersValidator.Validate(order);
-            if (!orderViewModelValidation.IsValid)
+            if (orderViewModelValidation?.IsValid == false)
             {
                 throw new ValidationException(orderViewModelValidation.Errors);
             }
@@ -121,7 +114,7 @@ namespace Zip.InstallmentsService.Services
             };
 
             var neworderValidation = this.ordersValidator.Validate(newOrder);
-            if (!neworderValidation.IsValid)
+            if (neworderValidation?.IsValid == false)
             {
                 throw new ValidationException(neworderValidation.Errors);
             }
@@ -200,7 +193,7 @@ namespace Zip.InstallmentsService.Services
 
             if (!string.IsNullOrEmpty(OrderId))
             {
-                filterExpression = x =>  x.Id == new Guid(OrderId);
+                filterExpression = x => x.Id == new Guid(OrderId);
             }
             //if (!string.IsNullOrEmpty(Email))
             //{

@@ -4,8 +4,14 @@ using Zip.Installments.Validations.Base;
 
 namespace Zip.Installments.Validations.Services
 {
+    /// <summary>
+    ///     To set fluent validation for payment installments
+    /// </summary>
     public class InstallmentValidator : BaseValidator<Installment>
     {
+        /// <summary>
+        ///     Set fluent validation rules for payment installments
+        /// </summary>
         public InstallmentValidator()
         {
             RuleLevelCascadeMode = CascadeMode.Stop;

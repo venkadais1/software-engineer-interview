@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Zip.Installments.Core.Models;
 using Zip.Installments.ViewModel.Orders;
@@ -11,7 +10,6 @@ namespace Zip.Installments.API.Controllers.v1
     ///     The Definition of user orders controller
     /// </summary>
     [ApiVersion("1")]
-    [ExcludeFromCodeCoverage]
     public class OrdersController : ApiBaseController
     {
         private readonly IOrderService orderService;
@@ -29,7 +27,6 @@ namespace Zip.Installments.API.Controllers.v1
             this.orderService = orderService;
             this.logger = logger;
         }
-
 
         /// <summary>
         ///     GET: To get the list of user orders 
@@ -86,9 +83,6 @@ namespace Zip.Installments.API.Controllers.v1
             this.logger.LogInfo($"{nameof(OrdersController.GetOrders)} END");
             return response == null ? this.NotFound() :
                 Ok(response);
-
-
-
         }
     }
 }

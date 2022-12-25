@@ -31,7 +31,6 @@ namespace Zip.Installments.API.Controllers.v2
             this.logger = logger;
         }
 
-
         /// <summary>
         ///     GET: To get the list of user orders 
         /// </summary>
@@ -87,7 +86,6 @@ namespace Zip.Installments.API.Controllers.v2
             this.logger.LogInfo($"{nameof(OrdersController.GetOrders)} END");
             return response == null ? this.NotFound() :
                 Ok(response);
-
         }
     }
 }

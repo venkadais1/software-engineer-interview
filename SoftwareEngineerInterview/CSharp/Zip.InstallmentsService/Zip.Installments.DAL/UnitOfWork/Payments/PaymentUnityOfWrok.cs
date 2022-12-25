@@ -1,12 +1,18 @@
 ﻿using Zip.Installments.DAL.AppContext;
-using Zip.Installments.DAL.Interfaces;
 
 namespace Zip.Installments.DAL.UnitOfWork.Payments
 {
-    public sealed class PaymentUnityOfWrok : IPaymentUnityOfWrok
+    /// <summary>
+    ///     Unity of framework to extend the db.
+    /// </summary>
+    public sealed class PaymentUnityOfWrok
     {
         private readonly OrdersDbContext ordersDb;
 
+        /// <summary>
+        ///     Initialize Unity of work framework
+        /// </summary>
+        /// <param name="ordersDb"></param>
         public PaymentUnityOfWrok(OrdersDbContext ordersDb)
         {
             this.ordersDb = ordersDb;

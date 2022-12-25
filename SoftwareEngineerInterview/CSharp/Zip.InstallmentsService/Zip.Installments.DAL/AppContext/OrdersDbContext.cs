@@ -20,20 +20,11 @@ namespace Zip.Installments.DAL.AppContext
         /// <summary>
         ///     Configure db options
         /// </summary>
-        /// <param name="optionsBuilder"></param>
+        /// <param name="optionsBuilder">To set db options</param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
         }
-
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //  var orders = modelBuilder.Entity<Order>()
-        //       .Property(x => x.Payment)
-        //       .IsRequired();
-
-
-        //}
 
         /// <summary>
         ///     Db instance of orders

@@ -22,11 +22,9 @@ namespace Zip.Installments.API.Extensions.Swagger.Options
         }
 
         /// <summary>
-        ///     
+        ///     Configured with swagger options
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="options"></param>
-        /// <exception cref="NotImplementedException"></exception>
+        /// /// <param name="options">Swagger Generation options</param>
         public void Configure(SwaggerGenOptions options)
         {
             foreach (var description in this.provider.ApiVersionDescriptions)
@@ -37,11 +35,10 @@ namespace Zip.Installments.API.Extensions.Swagger.Options
         }
 
         /// <summary>
-        ///     
+        ///     Configured with swagger options
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="options"></param>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <param name="name">Swagger Generation options</param>
+        ///<param name="options">Swagger name</param>
         public void Configure(string? name, SwaggerGenOptions options)
         {
             Configure(options);
@@ -52,13 +49,13 @@ namespace Zip.Installments.API.Extensions.Swagger.Options
             var info = new OpenApiInfo()
             {
                 Title = "ZipPay Payment API",
-                Description = "To create installments of ZipPay paymnets",
+                Description = "To create installments of ZipPay payments",
                 Version = description.ApiVersion.ToString(),
             };
 
             if (description.IsDeprecated)
             {
-                info.Description += "The api Version has been depricated";
+                info.Description += "The API Version has been deprecated";
             }
 
             return info;

@@ -4,8 +4,14 @@ using Zip.Installments.Validations.Base;
 
 namespace Zip.Installments.Validations.Services
 {
+    /// <summary>
+    ///     To set fluent validation for orders
+    /// </summary>
     public class OrderValidator : BaseValidator<Order>, IValidator<Order>
     {
+        /// <summary>
+        ///     Set fluent validation rules for orders
+        /// </summary>
         public OrderValidator()
         {
             RuleFor(x => x.NumberOfInstallments)

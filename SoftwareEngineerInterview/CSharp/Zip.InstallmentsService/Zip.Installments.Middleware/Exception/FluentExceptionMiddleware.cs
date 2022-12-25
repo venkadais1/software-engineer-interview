@@ -8,6 +8,9 @@ using Zip.InstallmentsService.Interface;
 
 namespace Zip.Installments.Middleware.Exceptions
 {
+    /// <summary>
+    ///     Global exception handler
+    /// </summary>
     public class FluentExceptionMiddleware
     {
         private const string JsonContentType = "application/json";

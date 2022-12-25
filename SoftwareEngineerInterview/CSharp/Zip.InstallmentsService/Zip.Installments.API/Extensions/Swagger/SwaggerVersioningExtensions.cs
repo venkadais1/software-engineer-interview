@@ -8,10 +8,10 @@ namespace Zip.Installments.API.Extensions.Swagger
     public static class SwaggerVersioningExtensions
     {
         /// <summary>
-        ///     Add Api versioning to choose versions
+        ///     Add API version to choose versions
         /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
+        /// <param name="services">Add this extension on service collections</param>
+        /// <returns>Returns to service collection</returns>
         public static IServiceCollection AddSwaggApiVersioning(this IServiceCollection services)
         {
             services.AddApiVersioning(option =>
@@ -28,10 +28,10 @@ namespace Zip.Installments.API.Extensions.Swagger
         }
 
         /// <summary>
-        ///     Add Explorer to discover vesions
+        ///     Add Explorer to discover version
         /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
+        /// <param name="services">Add this extension on service collections</param>
+        /// <returns>Returns to service collection</returns>
         public static IServiceCollection AddSwagerApiVersionExplorer(this IServiceCollection services)
         {
             services.AddVersionedApiExplorer(opt =>
@@ -45,6 +45,11 @@ namespace Zip.Installments.API.Extensions.Swagger
             return services;
         }
 
+        /// <summary>
+        ///     Swagger setup for UI rendering with version
+        /// </summary>
+        /// <param name="app">Add this extension on application builders</param>
+        /// <returns>Returns an application builder</returns>
         public static IApplicationBuilder UseSwaggerUISetup(this IApplicationBuilder app)
         {
             var apiVersionProvider = app.ApplicationServices.GetRequiredService<IApiVersionDescriptionProvider>();

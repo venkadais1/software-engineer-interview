@@ -11,8 +11,16 @@ using Zip.InstallmentsService.Services;
 
 namespace Zip.InstallmentsService.ServiceExtensions
 {
+    /// <summary>
+    ///     The service extension for object scopes
+    /// </summary>
     public static class ServiceExtensions
     {
+        /// <summary>
+        ///     An service extensions
+        /// </summary>
+        /// <param name="service">An instance of services</param>
+        /// <returns>Returns services</returns>
         public static IServiceCollection AddServiceExtensions(this IServiceCollection service)
         {
             service.AddScoped<IOrderService, OrderService>();
