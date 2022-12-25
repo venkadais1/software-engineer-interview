@@ -243,3 +243,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/SoftwareEngineerInterview/CSharp/Zip.InstallmentsService/Zip.Installments.ViewModel/Orders/OrderSearchViewModel.cs
