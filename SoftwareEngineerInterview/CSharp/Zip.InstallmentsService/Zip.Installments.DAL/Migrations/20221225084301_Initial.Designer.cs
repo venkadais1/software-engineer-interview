@@ -12,7 +12,7 @@ using Zip.Installments.DAL.AppContext;
 namespace Zip.Installments.DAL.Migrations
 {
     [DbContext(typeof(OrdersDbContext))]
-    [Migration("20221224045319_Initial")]
+    [Migration("20221225084301_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -52,6 +52,9 @@ namespace Zip.Installments.DAL.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()

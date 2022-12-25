@@ -1,6 +1,4 @@
-﻿using Zip.Installments.Core.Constants;
-
-namespace Zip.Installments.Core.Models
+﻿namespace Zip.Installments.Core.Models
 {
     /// <summary>
     ///     Order response structure definition

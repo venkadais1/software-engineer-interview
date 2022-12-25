@@ -1,6 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Zip.Installments.Validations.Base
 {

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -21,7 +20,7 @@ namespace Zip.Installments.API.Extensions.Swagger.Options
         {
             this.provider = provider;
         }
-        
+
         /// <summary>
         ///     
         /// </summary>
@@ -50,10 +49,10 @@ namespace Zip.Installments.API.Extensions.Swagger.Options
 
         private OpenApiInfo CreateVersionInfo(ApiVersionDescription description)
         {
-            var info = new OpenApiInfo() 
+            var info = new OpenApiInfo()
             {
-                 Title = "ZipPay Payment API",
-                Description="To create installments of ZipPay paymnets",
+                Title = "ZipPay Payment API",
+                Description = "To create installments of ZipPay paymnets",
                 Version = description.ApiVersion.ToString(),
             };
 

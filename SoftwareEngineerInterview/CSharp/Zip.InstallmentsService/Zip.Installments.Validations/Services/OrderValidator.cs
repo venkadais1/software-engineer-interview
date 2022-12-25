@@ -4,11 +4,10 @@ using Zip.Installments.Validations.Base;
 
 namespace Zip.Installments.Validations.Services
 {
-    public class OrderValidator : BaseValidator<Order>
+    public class OrderValidator : BaseValidator<Order>, IValidator<Order>
     {
         public OrderValidator()
         {
-            RuleLevelCascadeMode = CascadeMode.Stop;
             RuleFor(x => x.NumberOfInstallments)
                 .GreaterThan(1)
                 .WithMessage("Invalid Installments");

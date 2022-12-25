@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Linq.Expressions;
 using Zip.Installments.DAL.Extensions;
 using Zip.Installments.DAL.Interfaces;
@@ -26,7 +25,13 @@ namespace Zip.Installments.DAL.AppContext
 
         public async Task Create(T entity)
         {
-           var id = await this.dbContext.Set<T>().AddAsync(entity);
+            var id = await this.dbContext.Set<T>().AddAsync(entity);
+        }
+
+        public async Task<T> Find(Guid id)
+        {
+            var query = await this.dbContext.Set<T>().FindAsync(id);
+            return query;
         }
 
         public async Task<IList<T>> FindAll(params Expression<Func<T, object>>[] includes)
@@ -35,7 +40,7 @@ namespace Zip.Installments.DAL.AppContext
                 .IncludeMultiple(includes)
                 .AsNoTracking()
                 .AsQueryable();
-            
+
             return await query.ToListAsync();
         }
 
@@ -62,14 +67,25 @@ namespace Zip.Installments.DAL.AppContext
             }
 
             return ret;
-
         }
 
         public async Task<IList<T>> FindConditoin(
-            Expression<Func<T, bool>> expression)
+            Expression<Func<T, bool>> expression,
+            Expression<Func<T, object>> orderPredicate,
+            bool isAscendingOrder = false,
+            params Expression<Func<T, object>>[] includes)
         {
-            return await this.dbContext.Set<T>()
-                .Where(expression).ToListAsync();
+            var query = this.dbContext.Set<T>()
+                            .IncludeMultiple(includes)
+                            .Where(expression)
+                            .AsNoTracking()
+                            .AsQueryable();
+
+            query = isAscendingOrder ?
+                    query.OrderBy(orderPredicate) :
+                    query.OrderByDescending(orderPredicate);
+
+            return await query.ToListAsync();
         }
     }
 }

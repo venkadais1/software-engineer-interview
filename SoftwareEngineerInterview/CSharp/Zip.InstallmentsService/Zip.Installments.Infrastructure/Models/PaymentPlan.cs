@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Zip.Installments.Core.Models
 {
@@ -12,7 +10,7 @@ namespace Zip.Installments.Core.Models
         [Key]
         public Guid PaymentId { get; set; }
 
-		public decimal PurchaseAmount { get; set; }
+        public decimal PurchaseAmount { get; set; }
 
         public virtual ICollection<Installment> Installments { get; set; }
 

@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using Zip.Installments.API.Extensions.Logging;
 using Zip.Installments.API.Extensions.Swagger;
 using Zip.Installments.DAL.Extensions;
@@ -14,7 +15,11 @@ builder.Services.AddAppLogging(config);
 builder.Services.AddInfrastructure(config);
 builder.Services.AddServiceExtensions();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+{
+    // Prevent default model validation and use only fluent validation
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -33,7 +38,7 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<FluentExceptionMiddleware>();
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.MapControllers();
 

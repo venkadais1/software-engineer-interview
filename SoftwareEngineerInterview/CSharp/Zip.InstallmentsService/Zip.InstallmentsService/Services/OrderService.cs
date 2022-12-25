@@ -1,21 +1,27 @@
-﻿using System;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore.Internal;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Zip.Installments.Core.Constants;
-using Zip.Installments.DAL.Interfaces;
+using Zip.Installments.Core.Extensions;
 using Zip.Installments.Core.Models;
+using Zip.Installments.DAL.Extensions;
+using Zip.Installments.DAL.Interfaces;
+using Zip.Installments.Validations.Controllers;
+using Zip.Installments.Validations.Services;
 using Zip.Installments.ViewModel.Orders;
 using Zip.InstallmentsService.Interface;
-using FluentValidation;
-using Zip.Installments.Core.Extensions;
-using FluentValidation.Results;
 
 namespace Zip.InstallmentsService.Services
 {
     /// <summary>
-    ///     The Implemetation of order service
+    ///     The Implementation of order service
     /// </summary>
     public class OrderService : IOrderService
     {
@@ -53,6 +59,32 @@ namespace Zip.InstallmentsService.Services
         }
 
         /// <summary>
+        ///     Get the list of orders
+        /// </summary>
+        /// <returns>Returns list of orders</returns>
+        public async Task<IList<Order>> GetOrderByFilter(
+            string OrderId,
+            string Email,
+            string FirstName,
+            string LastName,
+            string OrderTitle
+            )
+        {
+            this.logger.LogInfo($"{nameof(OrderService.GetOrders)} Fetching");
+            Expression<Func<Order, bool>> filterExpression = this.GetOrderFilter(OrderId, Email, FirstName, LastName, OrderTitle);
+
+            Expression<Func<Order, object>> orderPredicate = x => x.CreationDate;
+            var response = await this.repository.OrdersRepository.FindConditoin(
+                filterExpression,
+                orderPredicate,
+                false,
+                x => x.Payment, y => y.Payment.Installments);
+
+            this.logger.LogInfo($"{nameof(OrderService.GetOrders)} Completed");
+            return response?.OrderByDescending(n => n.FirstName).ToList();
+        }
+
+        /// <summary>
         ///     Create the order of payment with instalments
         /// </summary>
         /// <param name="order">An view model of order</param>
@@ -61,14 +93,14 @@ namespace Zip.InstallmentsService.Services
         {
             this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Started");
             var orderViewModelValidation = this.VmOrdersValidator.Validate(order);
-
             if (!orderViewModelValidation.IsValid)
             {
                 throw new ValidationException(orderViewModelValidation.Errors);
             }
+
             this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Check if already exists");
-            var existingOrder = await this.repository.OrdersRepository.FindConditoin(x => x.Id == order.Id);
-            if (existingOrder != null && existingOrder.Any())
+            var existingOrder = await this.repository.OrdersRepository.Find(order.Id);
+            if (existingOrder != null)
             {
                 throw new InvalidDataException("Invalid Order or order id");
             }
@@ -84,7 +116,8 @@ namespace Zip.InstallmentsService.Services
                 FirstName = order.FirstName,
                 LastName = order.LastName,
                 NumberOfInstallments = order.NumberOfInstallments,
-                Payment = this.CreateInstallments(order, paymentId)
+                Payment = this.CreatePaymentPlan(order, paymentId),
+                CreationDate = DateTime.UtcNow
             };
 
             var neworderValidation = this.ordersValidator.Validate(newOrder);
@@ -92,6 +125,7 @@ namespace Zip.InstallmentsService.Services
             {
                 throw new ValidationException(neworderValidation.Errors);
             }
+
             this.logger.LogInfo($"{nameof(OrderService.CreateOrder)} Creating new order");
             await this.repository.OrdersRepository.Create(newOrder);
             await this.repository.Save();
@@ -103,46 +137,11 @@ namespace Zip.InstallmentsService.Services
                 Message = AppConstants.OrderCreatedSuccess,
                 OrderStatus = nameof(OrderStatus.Purchased)
             };
-            //}
-            //else
-            //{
-            //    orderResponse = CreateOrderResponse(false, order.Id, newOrderValidation);
-            //}
-            //}
-            //else
-            //{
-            //    orderResponse = CreateOrderResponse(false, order.Id, orderViewModelValidation);
-            //}
-
-
         }
 
-        private OrderResponse CreateOrderResponse(bool Success, Guid orderId, ValidationResult validationResult)
+        private PaymentPlan CreatePaymentPlan(OrdersViewModel payment, Guid paymentId)
         {
-            if (Success)
-            {
-                return new OrderResponse
-                {
-                    Id = orderId,
-                    Message = AppConstants.OrderCreatedSuccess,
-                    OrderStatus = nameof(OrderStatus.Purchased)
-                };
-            }
-            else
-            {
-
-                return new OrderResponse
-                {
-                    Id = orderId,
-                    Message = validationResult.Errors.Select(x => x.ErrorMessage).EnumToString(),
-                    OrderStatus = nameof(OrderStatus.CreationFailed)
-                };
-            }
-        }
-
-        private PaymentPlan CreateInstallments(OrdersViewModel payment, Guid paymentId)
-        {
-            this.logger.LogInfo($"{nameof(OrderService.CreateInstallments)} Creating installments");
+            this.logger.LogInfo($"{nameof(OrderService.CreatePaymentPlan)} Creating installments");
 
             PaymentPlan paymentPlan = new PaymentPlan();
 
@@ -159,7 +158,7 @@ namespace Zip.InstallmentsService.Services
                 payment.Frequency,
                 payment.FirstPaymentDate);
 
-            this.logger.LogInfo($"{nameof(OrderService.CreateInstallments)} End");
+            this.logger.LogInfo($"{nameof(OrderService.CreatePaymentPlan)} End");
 
             return paymentPlan;
         }
@@ -193,6 +192,34 @@ namespace Zip.InstallmentsService.Services
 
             this.logger.LogInfo($"{nameof(OrderService.CalculateInstallments)} End");
             return installments.ToArray();
+        }
+
+        private Expression<Func<Order, bool>> GetOrderFilter(string OrderId, string Email, string FirstName, string LastName, string OrderTitle)
+        {
+            Expression<Func<Order, bool>> filterExpression = x => true;
+
+            if (!string.IsNullOrEmpty(OrderId))
+            {
+                filterExpression = x =>  x.Id == new Guid(OrderId);
+            }
+            //if (!string.IsNullOrEmpty(Email))
+            //{
+            //    //filterExpression = filterExpression.And(n => n.Email.Contains(Email));
+            //}
+            //if (!string.IsNullOrEmpty(FirstName))
+            //{
+            //    //filterExpression = filterExpression.And(n => n.FirstName.Contains(FirstName));
+            //}
+            //if (!string.IsNullOrEmpty(LastName))
+            //{
+            //    //filterExpression = filterExpression.And(n => n.LastName.Contains(LastName));
+            //}
+            //if (!string.IsNullOrEmpty(OrderTitle))
+            //{
+            //    //filterExpression = filterExpression.And(n => n.LastName.Contains(OrderTitle));
+            //}
+
+            return filterExpression;
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using Zip.Installments.Core.Models;
 using Zip.Installments.ViewModel.Orders;
-using Zip.InstallmentsService.Helpers;
 using Zip.InstallmentsService.Interface;
 
 namespace Zip.Installments.API.Controllers.v1
@@ -10,7 +11,6 @@ namespace Zip.Installments.API.Controllers.v1
     /// <summary>
     ///     The Definition of user orders controller
     /// </summary>
-    [ApiController]
     [ApiVersion("1")]
     public class OrdersController : ApiBaseController
     {
@@ -36,48 +36,38 @@ namespace Zip.Installments.API.Controllers.v1
         /// </summary>
         /// <param name="order">An instance of <see cref="Order"/></param>
         /// <returns>Returns an instance of <see cref="OrderResponse"/></returns>
-        [HttpGet("")]
+        [HttpGet("all")]
         public async Task<IActionResult> GetOrders()
         {
+
             this.logger.LogInfo($"{nameof(OrdersController.GetOrders)} Started");
 
-            try
-            {
-                var response = await this.orderService.GetOrders();
-                return response == null ? this.NotFound() :
-                    Ok(response);
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                this.logger.LogError($"Code:{HttpStatusCode.Unauthorized}:{ex}");
-                return ObjectResponse.GetResults(HttpStatusCode.Unauthorized, ex.Message);
-            }
-            catch (AccessViolationException ex)
-            {
-                this.logger.LogError($"Code:{HttpStatusCode.Forbidden}:{ex}");
-                return ObjectResponse.GetResults(HttpStatusCode.Forbidden, ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                this.logger.LogError($"Code:{HttpStatusCode.BadRequest}:{ex}");
-                return ObjectResponse.GetResults(HttpStatusCode.BadRequest, ex.Message);
-            }
-            catch (InvalidDataException ex)
-            {
-                this.logger.LogError($"Code:{HttpStatusCode.Conflict}:{ex}");
-                return ObjectResponse.GetResults(HttpStatusCode.Conflict, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError($"Code:{HttpStatusCode.InternalServerError}:{ex}");
-                return ObjectResponse.GetResults(HttpStatusCode.InternalServerError, ex.Message, true);
-            }
-            finally
-            {
-                this.logger.LogInfo($"{nameof(OrdersController.GetOrders)} END");
-            }
+            var response = await this.orderService.GetOrders();
 
+            this.logger.LogInfo($"{nameof(OrdersController.GetOrders)} END");
+            return response == null ? this.NotFound() :
+                Ok(response);
+        }
 
+        /// <summary>
+        ///     GET: To get the list of user orders 
+        /// </summary>
+        /// <param name="order">An instance of order</param>
+        /// <returns>Returns an instance of order response</returns>
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetOrderByOrderByFilter([FromQuery]
+            [Optional]string OrderId,
+            [Optional] string Email,
+            [Optional] string FirstName,
+            [Optional] string LastName,
+            [Optional] string OrderTitle)
+        {
+            this.logger.LogInfo($"{nameof(OrdersController.GetOrderByOrderByFilter)} Started");
+            var response = await this.orderService.GetOrderByFilter(OrderId, Email, FirstName, LastName, OrderTitle);
+
+            this.logger.LogInfo($"{nameof(OrdersController.GetOrderByOrderByFilter)} END");
+            return response == null ? this.NotFound() :
+                Ok(response);
         }
 
         /// <summary>
@@ -89,55 +79,16 @@ namespace Zip.Installments.API.Controllers.v1
         public async Task<IActionResult> CreateOrders(
             [FromBody] OrdersViewModel order)
         {
+            this.logger.LogInfo($"{nameof(OrdersController.GetOrders)} Started");
 
-            //try
-            //{
-                if (order == null)
-                {
-                    throw new ArgumentNullException("Invalid Order");
-                }
+            var response = await this.orderService.CreateOrder(order);
 
-                var response = await this.orderService.CreateOrder(order);
+            this.logger.LogInfo($"{nameof(OrdersController.GetOrders)} END");
+            return response == null ? this.NotFound() :
+                Ok(response);
 
-                return response == null ? this.NotFound() :
-                    Ok(response);
 
-            //}
-            //catch (UnauthorizedAccessException ex)
-            //{
-            //    this.logger.LogError($"Code:{HttpStatusCode.Unauthorized}:{ex}");
-            //    return ObjectResponse.GetResults(HttpStatusCode.Unauthorized, ex.Message);
-            //}
-            //catch (AccessViolationException ex)
-            //{
-            //    this.logger.LogError($"Code:{HttpStatusCode.Forbidden}:{ex}");
-            //    return ObjectResponse.GetResults(HttpStatusCode.Forbidden, ex.Message);
-            //}
-            //catch (ArgumentNullException ex)
-            //{
-            //    this.logger.LogError($"Code:{HttpStatusCode.BadRequest}:{ex}");
-            //    return ObjectResponse.GetResults(HttpStatusCode.BadRequest, ex.Message);
-            //}
-            //catch (InvalidOperationException ex)
-            //{
-            //    this.logger.LogError($"Code:{HttpStatusCode.BadRequest}:{ex}");
-            //    return ObjectResponse.GetResults(HttpStatusCode.BadRequest, ex.Message);
-            //}
-            //catch (InvalidDataException ex)
-            //{
-            //    this.logger.LogError($"Code:{HttpStatusCode.Conflict}:{ex}");
-            //    return ObjectResponse.GetResults(HttpStatusCode.Conflict, ex.Message);
-            //}
-            //catch (Exception ex)
-            //{
-            //    this.logger.LogError($"Code:{HttpStatusCode.InternalServerError}:{ex}");
-            //    //return ObjectResponse.GetResults(HttpStatusCode.Conflict, ex.Message, true);
-            //    return ObjectResponse.GetResults(HttpStatusCode.InternalServerError, ex.ToString());
-            //}
-            //finally
-            //{
-            //    this.logger.LogInfo($"{nameof(OrdersController.CreateOrders)} END");
-            //}
+
         }
     }
 }

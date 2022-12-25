@@ -1,22 +1,18 @@
 ﻿using FluentValidation;
-using System.Net;
 using Zip.Installments.Core.Constants;
 using Zip.Installments.Validations.Base;
 using Zip.Installments.ViewModel.Orders;
 
 namespace Zip.Installments.Validations.Controllers
 {
-    public class OrdersViewModelValidator : BaseValidator<OrdersViewModel>
+    public class OrdersViewModelValidator : BaseValidator<OrdersViewModel>, IValidator<OrdersViewModel>
     {
         public OrdersViewModelValidator()
         {
-            //this.CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(model => model.Email)
                 .NotNull()
                 .NotEmpty()
                 .EmailAddress()
-                .WithErrorCode(HttpStatusCode.BadRequest.ToString())
-                //.WithState(x => new InvalidOperationException(ErrorMessage.InvalidProperty));
                 .WithMessage(ErrorMessage.InvalidProperty);
 
             RuleFor(x => x.FirstName)

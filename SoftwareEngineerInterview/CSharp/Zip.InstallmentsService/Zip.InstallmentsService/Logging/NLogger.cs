@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using NLog;
+﻿using NLog;
 using Zip.InstallmentsService.Interface;
 
 namespace Zip.InstallmentsService.Logging

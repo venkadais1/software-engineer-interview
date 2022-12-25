@@ -14,9 +14,9 @@ namespace Zip.Installments.API.Extensions.Swagger
         /// <returns></returns>
         public static IServiceCollection AddSwaggApiVersioning(this IServiceCollection services)
         {
-            services.AddApiVersioning(option => 
+            services.AddApiVersioning(option =>
             {
-                option.DefaultApiVersion = new ApiVersion(1,2);
+                option.DefaultApiVersion = new ApiVersion(1, 2);
                 option.AssumeDefaultVersionWhenUnspecified = true;
                 option.ReportApiVersions = true;
                 option.ApiVersionReader = ApiVersionReader.Combine(
@@ -34,7 +34,7 @@ namespace Zip.Installments.API.Extensions.Swagger
         /// <returns></returns>
         public static IServiceCollection AddSwagerApiVersionExplorer(this IServiceCollection services)
         {
-            services.AddVersionedApiExplorer(opt => 
+            services.AddVersionedApiExplorer(opt =>
             {
                 opt.GroupNameFormat = "'v'VVV";
                 opt.SubstituteApiVersionInUrl = true;
@@ -48,7 +48,7 @@ namespace Zip.Installments.API.Extensions.Swagger
         public static IApplicationBuilder UseSwaggerUISetup(this IApplicationBuilder app)
         {
             var apiVersionProvider = app.ApplicationServices.GetRequiredService<IApiVersionDescriptionProvider>();
-            app.UseSwaggerUI(options => 
+            app.UseSwaggerUI(options =>
             {
                 foreach (var description in apiVersionProvider.ApiVersionDescriptions)
                 {

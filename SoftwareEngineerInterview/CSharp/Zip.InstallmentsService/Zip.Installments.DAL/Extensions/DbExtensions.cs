@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq.Expressions;
-using Zip.Installments.DAL.AppContext;
 using Zip.Installments.Core.Constants;
+using Zip.Installments.DAL.AppContext;
 
 namespace Zip.Installments.DAL.Extensions
 {

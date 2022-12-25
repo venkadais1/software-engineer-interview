@@ -1,6 +1,5 @@
-using System;
+
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Zip.Installments.Core.Models
 {
@@ -24,5 +23,5 @@ namespace Zip.Installments.Core.Models
         /// Gets or sets the amount of the installment.
         /// </summary>
         public decimal Amount { get; set; }
-	}
+    }
 }

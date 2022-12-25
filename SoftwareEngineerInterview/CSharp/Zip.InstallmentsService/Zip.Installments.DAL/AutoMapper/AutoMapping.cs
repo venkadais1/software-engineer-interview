@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Configuration;
-using NLog.Config;
 
 namespace Zip.Installments.DAL.AutoMapper
 {

@@ -32,7 +32,7 @@ namespace Zip.Installments.DAL.AppContext
         //       .Property(x => x.Payment)
         //       .IsRequired();
 
-               
+
         //}
 
         /// <summary>

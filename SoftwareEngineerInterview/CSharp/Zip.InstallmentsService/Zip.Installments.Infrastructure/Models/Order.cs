@@ -11,7 +11,7 @@ namespace Zip.Installments.Core.Models
         [Key]
         public Guid Id { get; set; }
         public string Description { get; set; }
-        public Guid ProductId { get; set; }        
+        public Guid ProductId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -20,5 +20,7 @@ namespace Zip.Installments.Core.Models
 
         [ForeignKey(nameof(PaymentId))]
         public virtual PaymentPlan Payment { get; set; }
+
+        public DateTime? CreationDate { get; set; }
     }
 }

@@ -53,7 +53,8 @@ namespace Zip.Installments.DAL.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberOfInstallments = table.Column<int>(type: "int", nullable: false),
-                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {

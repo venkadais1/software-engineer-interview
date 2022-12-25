@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Zip.Installments.Core.Models;
 using Zip.Installments.DAL.AppContext;
 using Zip.Installments.DAL.Interfaces;
-using Zip.Installments.Core.Models;
 using Zip.Installments.Validations.Controllers;
 using Zip.Installments.Validations.Services;
 using Zip.Installments.ViewModel.Orders;
@@ -18,8 +18,8 @@ namespace Zip.InstallmentsService.ServiceExtensions
             service.AddScoped<IOrderService, OrderService>();
             service.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             service.AddScoped<IOrdersRepository, OrdersRepository>();
-            service.AddTransient<IValidator<OrdersViewModel>, OrdersViewModelValidator>();
-            service.AddTransient<IValidator<Order>, OrderValidator>();
+            service.AddScoped<IValidator<OrdersViewModel>, OrdersViewModelValidator>();
+            service.AddScoped<IValidator<Order>, OrderValidator>();
 
             return service;
         }

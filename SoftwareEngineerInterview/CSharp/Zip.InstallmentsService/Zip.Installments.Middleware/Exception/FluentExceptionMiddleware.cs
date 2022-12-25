@@ -1,8 +1,8 @@
-﻿using System.Net;
-using System.Security.Authentication;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.Net;
+using System.Security.Authentication;
 using Zip.Installments.Validations.Exception;
 using Zip.InstallmentsService.Interface;
 
@@ -81,6 +81,9 @@ namespace Zip.Installments.Middleware.Exceptions
                     break;
                 case var _ when exception is KeyNotFoundException:
                     httpStatusCode = GetStatusCode(HttpStatusCode.NotFound, exception);
+                    break;
+                case var _ when exception is InvalidDataException:
+                    httpStatusCode = GetStatusCode(HttpStatusCode.Conflict, exception);
                     break;
                 default:
                     httpStatusCode = GetStatusCode(HttpStatusCode.InternalServerError, exception);

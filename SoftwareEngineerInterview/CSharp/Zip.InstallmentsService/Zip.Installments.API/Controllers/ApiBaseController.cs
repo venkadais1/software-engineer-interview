@@ -6,7 +6,8 @@ namespace Zip.Installments.API.Controllers
     ///     The api base controller to setup api's
     /// </summary>
     [Route("api/v{version:apiVersion}/[controller]")]//Routting with api versioning
-    public class ApiBaseController: ControllerBase
+    [ApiController]
+    public class ApiBaseController : ControllerBase
     {
     }
 }

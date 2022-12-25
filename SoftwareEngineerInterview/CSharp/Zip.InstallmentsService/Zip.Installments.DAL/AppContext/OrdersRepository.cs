@@ -1,5 +1,5 @@
-﻿using Zip.Installments.DAL.Interfaces;
-using Zip.Installments.Core.Models;
+﻿using Zip.Installments.Core.Models;
+using Zip.Installments.DAL.Interfaces;
 
 namespace Zip.Installments.DAL.AppContext
 {
@@ -12,10 +12,10 @@ namespace Zip.Installments.DAL.AppContext
         ///     Initialize an db context instance
         /// </summary>
         /// <param name="dbContext">An instance of db context</param>
-        public OrdersRepository(OrdersDbContext dbContext) 
+        public OrdersRepository(OrdersDbContext dbContext)
             : base(dbContext)
         {
-        }      
+        }
 
     }
 }

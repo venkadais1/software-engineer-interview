@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace Zip.Installments.Validations.Exception
+﻿namespace Zip.Installments.Validations.Exception
 {
     public class ErrorModelViewModel
     {

@@ -11,11 +11,23 @@ namespace Zip.InstallmentsService.Interface
     public interface IOrderService
     {
         /// <summary>
-        ///     Create the order of payment with instalments
+        ///     Create the order of payment with installments
         /// </summary>
         /// <param name="order">An view model of order</param>
         /// <returns>Return created order</returns>
         Task<OrderResponse> CreateOrder(OrdersViewModel order);
+
+        /// <summary>
+        ///     Get the orders by condition
+        /// </summary>
+        /// <param name="filter">Search condition</param>
+        /// <returns>Returns list of orders</returns>
+        Task<IList<Order>> GetOrderByFilter(
+            string OrderId,
+            string Email,
+            string FirstName,
+            string LastName,
+            string OrderTitle);
 
         /// <summary>
         ///     Get the list of orders
