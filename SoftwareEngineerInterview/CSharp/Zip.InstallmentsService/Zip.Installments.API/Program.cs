@@ -16,7 +16,7 @@ builder.Services.AddServiceExtensions();
 
 builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
 {
-    // Prevent default model validation and use only fluent validation
+    // Disable automatic model state validation by using and use only fluent validation
     options.SuppressModelStateInvalidFilter = true;
 });
 

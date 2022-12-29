@@ -1,17 +1,17 @@
 ﻿namespace Zip.Installments.Core.Constants
 {
     /// <summary>
-    ///     The applicaiton configuration constants
+    ///     The application configuration constants
     /// </summary>
-    public class ConfigConstants
+    public sealed class ConfigConstants
     {
         /// <summary>
-        ///     Database Conection key name
+        ///     Database Connection key name
         /// </summary>
         public const string DbConnection = "ConnectionStrings:DbConection";
 
         /// <summary>
-        ///     In-Memory Databse Name
+        ///     In-Memory Database Name
         /// </summary>
         public const string InMemoryDbName = "ConnectionStrings:InMemoryDbName";
     }

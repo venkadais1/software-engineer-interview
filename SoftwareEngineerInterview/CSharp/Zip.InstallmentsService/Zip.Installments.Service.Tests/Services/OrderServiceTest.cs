@@ -8,11 +8,11 @@ using System.IO;
 using System.Threading.Tasks;
 using Xunit;
 using Zip.Installments.Core.Constants;
+using Zip.Installments.Core.Interface;
 using Zip.Installments.Core.Models;
 using Zip.Installments.DAL.AppContext;
 using Zip.Installments.DAL.Interfaces;
 using Zip.Installments.ViewModel.Orders;
-using Zip.InstallmentsService.Interface;
 using Zip.InstallmentsService.Services;
 
 namespace Zip.Installments.Service.Tests
@@ -23,7 +23,7 @@ namespace Zip.Installments.Service.Tests
     public class OrderServiceTest
     {
         private readonly OrderService orderService;
-        private readonly Mock<IRepositoryWrapper> repository;
+        private readonly Mock<IUnityOfWork> repository;
         private readonly Mock<INLogger> logger;
         private readonly Mock<IValidator<OrdersViewModel>> VmOrdersValidator;
         private readonly Mock<IValidator<Order>> ordersValidator;
@@ -39,7 +39,7 @@ namespace Zip.Installments.Service.Tests
             var dbContext = new OrdersDbContext(dbOptions);
             var rep = new OrdersRepository(dbContext);
 
-            this.repository = new Mock<IRepositoryWrapper>();
+            this.repository = new Mock<IUnityOfWork>();
             this.logger = new Mock<INLogger>();
             this.VmOrdersValidator = new Mock<IValidator<OrdersViewModel>>();
             this.ordersValidator = new Mock<IValidator<Order>>();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using Zip.Installments.Core.Interface;
 using Zip.Installments.Core.Models;
 using Zip.Installments.ViewModel.Orders;
 using Zip.InstallmentsService.Interface;

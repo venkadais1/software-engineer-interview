@@ -9,16 +9,16 @@ namespace Zip.Installments.DAL.AppContext
     ///     The repository base class
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class RepositoryBase<T> : IRepositoryBase<T>
+    public abstract class RepositoryBase<T> : IRepositoryBase<T>
         where T : class
     {
-        private readonly OrdersDbContext dbContext;
+        private readonly IDbContext dbContext;
 
         /// <summary>     
         ///     Initialize an <see cref="RepositoryBase"/>
         /// </summary>
         /// <param name="dbContext"></param>
-        public RepositoryBase(OrdersDbContext dbContext)
+        public RepositoryBase(IDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -37,9 +37,13 @@ namespace Zip.Installments.DAL.AppContext
         /// </summary>
         /// <param name="id">The instance id</param>
         /// <returns>An instance</returns>
-        public async Task<T> Find(Guid id)
+        public async Task<T> Find<TKey>(TKey id)
         {
-            return await this.dbContext.Set<T>().FindAsync(id);
+            var entity =  await this.dbContext.Set<T>().FindAsync(id);
+            if (entity == null) return null;
+
+            return entity;
+           
         }
 
         /// <summary>
@@ -73,6 +77,7 @@ namespace Zip.Installments.DAL.AppContext
 
             return ret;
         }
+        //public abstract Task<int> Delete(T entity)
 
         /// <summary>
         ///     Update an entity
@@ -111,6 +116,28 @@ namespace Zip.Installments.DAL.AppContext
                             .Where(expression)
                             .AsNoTracking()
                             .AsQueryable();
+
+            query = isAscendingOrder ?
+                    query.OrderBy(orderPredicate) :
+                    query.OrderByDescending(orderPredicate);
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<IList<T>> GetPaginatedResultsAsync(
+            Expression<Func<T, bool>> expression,
+            Expression<Func<T, object>> orderPredicate,
+            bool isAscendingOrder = false,
+            //int Skip,
+            //int Take,
+            params Expression<Func<T, object>>[] includes)
+        {
+            var query = this.dbContext.Set<T>()
+                            .IncludeMultiple(includes)
+                            .Where(expression)
+                            .AsNoTracking()
+                            .AsQueryable();
+            //int pageNo = (p)
 
             query = isAscendingOrder ?
                     query.OrderBy(orderPredicate) :

@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 using Zip.Installments.API.Controllers.v1;
+using Zip.Installments.Core.Interface;
 using Zip.Installments.Core.Models;
 using Zip.Installments.ViewModel.Orders;
 using Zip.InstallmentsService.Interface;

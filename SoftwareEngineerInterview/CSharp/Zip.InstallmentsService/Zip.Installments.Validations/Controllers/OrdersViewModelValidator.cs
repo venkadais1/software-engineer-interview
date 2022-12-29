@@ -8,7 +8,7 @@ namespace Zip.Installments.Validations.Controllers
     /// <summary>
     ///     To set fluent validation for order view model
     /// </summary>
-    public class OrdersViewModelValidator : BaseValidator<OrdersViewModel>, IValidator<OrdersViewModel>
+    public sealed class OrdersViewModelValidator : BaseValidator<OrdersViewModel>, IValidator<OrdersViewModel>
     {
         /// <summary>
         ///     Set fluent validation rules for order view model
@@ -31,7 +31,6 @@ namespace Zip.Installments.Validations.Controllers
             RuleFor(x => x.LastName)
                 .NotNull()
                 .NotEmpty()
-                .MinimumLength(1)
                 .MinimumLength(1)
                 .MaximumLength(255)
                 .WithMessage(ErrorMessage.InvalidPropertyLength);

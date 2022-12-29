@@ -1,7 +1,7 @@
 ﻿using NLog;
 using NLog.Extensions.Logging;
-using Zip.InstallmentsService.Interface;
-using Zip.InstallmentsService.Logging;
+using Zip.Installments.Core.Interface;
+using Zip.Installments.Logs.Logging;
 
 namespace Zip.Installments.API.Extensions.Logging
 {

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Net;
 using System.Security.Authentication;
+using Zip.Installments.Core.Interface;
 using Zip.Installments.Validations.Exception;
-using Zip.InstallmentsService.Interface;
 
 namespace Zip.Installments.Middleware.Exceptions
 {

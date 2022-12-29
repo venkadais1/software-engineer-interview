@@ -8,7 +8,7 @@ namespace Zip.Installments.API.Extensions.Swagger.Options
     /// <summary>
     ///     The Definition of <see cref="ConfigureSwaggerOptions"/>
     /// </summary>
-    public class ConfigureSwaggerOptions : IConfigureNamedOptions<SwaggerGenOptions>
+    public sealed class ConfigureSwaggerOptions : IConfigureNamedOptions<SwaggerGenOptions>
     {
         private readonly IApiVersionDescriptionProvider provider;
 

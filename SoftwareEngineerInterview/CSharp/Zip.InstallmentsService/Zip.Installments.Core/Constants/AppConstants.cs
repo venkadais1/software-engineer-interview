@@ -3,7 +3,7 @@
     /// <summary>
     ///     Application common constants
     /// </summary>
-    public class AppConstants
+    public sealed class AppConstants
     {
         /// <summary>
         ///     Payment Success response message

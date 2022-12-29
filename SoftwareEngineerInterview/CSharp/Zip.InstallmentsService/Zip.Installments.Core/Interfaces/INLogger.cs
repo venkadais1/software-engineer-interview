@@ -1,4 +1,4 @@
-﻿namespace Zip.InstallmentsService.Interface
+﻿namespace Zip.Installments.Core.Interface
 {
     /// <summary>
     ///     The declaration of N logger 
@@ -28,5 +28,9 @@
         /// </summary>
         /// <param name="message">message to log</param>
         void LogError(string message);
+
+        void LowTrace(string message);
+
+        void LowShallow(string message); 
     }
 }

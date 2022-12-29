@@ -7,7 +7,7 @@ namespace Zip.Installments.Validations.Services
     /// <summary>
     ///     To set fluent validation for payment installments
     /// </summary>
-    public class InstallmentValidator : BaseValidator<Installment>
+    public sealed class InstallmentValidator : BaseValidator<Installment>
     {
         /// <summary>
         ///     Set fluent validation rules for payment installments

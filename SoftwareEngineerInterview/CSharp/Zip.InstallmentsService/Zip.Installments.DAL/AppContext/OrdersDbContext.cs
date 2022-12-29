@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Zip.Installments.Core.Models;
+using Zip.Installments.DAL.Interfaces;
 
 namespace Zip.Installments.DAL.AppContext
 {
     /// <summary>
     ///     The database context Definition class.
     /// </summary>
-    public class OrdersDbContext : DbContext
+    public sealed class OrdersDbContext : DbContext, IDbContext
     {
         /// <summary>
         ///     Initialize an db context instance

@@ -3,7 +3,7 @@
     /// <summary>
     ///     The POCO definition of orders view model
     /// </summary>
-    public class OrdersViewModel
+    public sealed class OrdersViewModel
     {
         /// <summary>
         ///     Gets or sets the order id

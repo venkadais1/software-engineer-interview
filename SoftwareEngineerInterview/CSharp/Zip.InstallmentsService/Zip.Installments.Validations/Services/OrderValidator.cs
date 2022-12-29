@@ -7,7 +7,7 @@ namespace Zip.Installments.Validations.Services
     /// <summary>
     ///     To set fluent validation for orders
     /// </summary>
-    public class OrderValidator : BaseValidator<Order>, IValidator<Order>
+    public sealed class OrderValidator : BaseValidator<Order>, IValidator<Order>
     {
         /// <summary>
         ///     Set fluent validation rules for orders

@@ -13,7 +13,7 @@ namespace Zip.Installments.DAL.Interfaces
         /// </summary>
         /// <param name="id">The instance id</param>
         /// <returns>An instance</returns>
-        Task<T> Find(Guid id);
+        Task<T> Find<TKey>(TKey id);
 
         /// <summary>
         ///     To Get all instances

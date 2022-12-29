@@ -3,7 +3,7 @@
     /// <summary>
     ///     Constants for fluent validation error messages
     /// </summary>
-    public class ErrorMessage
+    public sealed class ErrorMessage
     {
         /// <summary>
         ///     Property is invalid due to basic validation like null or empty

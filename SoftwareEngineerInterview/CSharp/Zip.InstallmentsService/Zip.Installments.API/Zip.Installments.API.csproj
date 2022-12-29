@@ -20,7 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Zip.Installments.Infrastructure\Zip.Installments.Core.csproj" />
+    <ProjectReference Include="..\Zip.Installments.Core\Zip.Installments.Core.csproj" />
+    <ProjectReference Include="..\Zip.Installments.Logs\Zip.Installments.Logs.csproj" />
     <ProjectReference Include="..\Zip.Installments.Middleware\Zip.Installments.Middleware.csproj" />
     <ProjectReference Include="..\Zip.Installments.ViewModel\Zip.Installments.ViewModel.csproj" />
     <ProjectReference Include="..\Zip.InstallmentsService\Zip.InstallmentsService.csproj" />

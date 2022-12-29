@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Zip.Installments.Core.Constants;
+using Zip.Installments.Core.Interface;
 using Zip.Installments.Core.Models;
 using Zip.Installments.DAL.Interfaces;
 using Zip.Installments.ViewModel.Orders;
@@ -19,7 +20,7 @@ namespace Zip.InstallmentsService.Services
     public class OrderService : IOrderService
     {
         private readonly INLogger logger;
-        private readonly IRepositoryWrapper repository;
+        private readonly IUnityOfWork repository;
         private readonly IValidator<OrdersViewModel> VmOrdersValidator;
         private readonly IValidator<Order> ordersValidator;
 
@@ -28,7 +29,7 @@ namespace Zip.InstallmentsService.Services
         /// </summary>
         /// <param name="repository"></param>
         public OrderService(INLogger logger,
-            IRepositoryWrapper repository,
+            IUnityOfWork repository,
             IValidator<OrdersViewModel> VmOrdersValidator,
             IValidator<Order> ordersValidator)
         {

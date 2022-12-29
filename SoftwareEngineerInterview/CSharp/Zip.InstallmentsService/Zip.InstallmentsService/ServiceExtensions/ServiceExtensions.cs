@@ -24,7 +24,7 @@ namespace Zip.InstallmentsService.ServiceExtensions
         public static IServiceCollection AddServiceExtensions(this IServiceCollection service)
         {
             service.AddScoped<IOrderService, OrderService>();
-            service.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            service.AddScoped<IUnityOfWork, UnitOfWork>();
             service.AddScoped<IOrdersRepository, OrdersRepository>();
             service.AddScoped<IValidator<OrdersViewModel>, OrdersViewModelValidator>();
             service.AddScoped<IValidator<Order>, OrderValidator>();

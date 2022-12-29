@@ -6,7 +6,7 @@ namespace Zip.Installments.DAL.AppContext
     /// <summary>
     ///     The order repository
     /// </summary>
-    public class OrdersRepository : RepositoryBase<Order>, IOrdersRepository
+    public sealed class OrdersRepository : RepositoryBase<Order>, IOrdersRepository
     {
         /// <summary>
         ///     Initialize an db context instance
@@ -16,6 +16,5 @@ namespace Zip.Installments.DAL.AppContext
             : base(dbContext)
         {
         }
-
     }
 }

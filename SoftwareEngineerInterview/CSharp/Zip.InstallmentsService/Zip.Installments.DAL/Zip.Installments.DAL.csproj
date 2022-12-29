@@ -20,7 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Zip.Installments.Infrastructure\Zip.Installments.Core.csproj" />
+    <ProjectReference Include="..\Zip.Installments.Core\Zip.Installments.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UnitOfWork\Payments\" />
   </ItemGroup>
 
 </Project>
