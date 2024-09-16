@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "ac1b23ca-78fc-4ac8-a613-0df84a692b13",
+		"name": "Payments",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22871403"
+	},
+	"item": [
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "https://localhost:7083/api/Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7083/api{{apiVersion}}/Orders/all",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7083",
+							"path": [
+								"api{{apiVersion}}",
+								"Orders",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:7083/api/Orders Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"d67826fb-1c6f-4616-a95b-58c833453771\",\",\r\n  \r\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7083/api{{apiVersion}}/Orders/filter?OrderId=d67826fb-1c6f-4616-a95b-58c833453771",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7083",
+							"path": [
+								"api{{apiVersion}}",
+								"Orders",
+								"filter"
+							],
+							"query": [
+								{
+									"key": "OrderId",
+									"value": "d67826fb-1c6f-4616-a95b-58c833453771"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:7083/api/Orders Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"d67826fb-1c6f-4616-a95b-58c833453772\",\r\n  \"description\": \"Purchase1\",\r\n  \"productId\": \"4ed32a23-6e45-4a61-ba1d-3b4b915f1fb9\",\r\n  \"firstName\": \"Venkat\",\r\n  \"lastName\": \"D\",\r\n  \"email\": \"venkadais@gmail.com\",\r\n  \"numberOfInstallments\": 2,\r\n  \"frequency\": 2,\r\n  \"purchaseAmount\": 100,\r\n  \"firstPaymentDate\": \"2022-12-25T13:26:40.769Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7083/api{{apiVersion}}/Orders",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7083",
+							"path": [
+								"api{{apiVersion}}",
+								"Orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:7083/api/Orders Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7083/api{{apiVersion}}/Orders/all",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7083",
+							"path": [
+								"api{{apiVersion}}",
+								"Orders",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

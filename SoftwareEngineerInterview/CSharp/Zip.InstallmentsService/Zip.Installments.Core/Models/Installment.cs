@@ -1,6 +1,7 @@
-using System;
 
-namespace Zip.InstallmentsService
+using System.ComponentModel.DataAnnotations;
+
+namespace Zip.Installments.Core.Models
 {
     /// <summary>
     /// Data structure which defines all the properties for an installment.
@@ -10,7 +11,8 @@ namespace Zip.InstallmentsService
         /// <summary>
         /// Gets or sets the unique identifier for each installment.
         /// </summary>
-        public Guid Id { get; set; }
+        [Key]
+        public Guid InstallmentId { get; set; }
 
         /// <summary>
         /// Gets or sets the date that the installment payment is due.
@@ -21,5 +23,5 @@ namespace Zip.InstallmentsService
         /// Gets or sets the amount of the installment.
         /// </summary>
         public decimal Amount { get; set; }
-	}
+    }
 }
